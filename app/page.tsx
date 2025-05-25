@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { getContract } from "./contract/nonprofit";
 import WalletConnect from "./components/WalletConnect";
+import AutomationTestUI from "./components/AutomationTestUI";
 
 export default function Home() {
   const [account, setAccount] = useState(null);
@@ -74,6 +75,7 @@ export default function Home() {
         )}
         {txStatus && <div className="text-blue-700 mt-2">{txStatus}</div>}
       </div>
+      <AutomationTestUI />
     </main>
   );
 }
