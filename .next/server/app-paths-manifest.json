@@ -1,0 +1,7 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
+  "/api/scrape": "app/api/scrape.js",
+  "/api/ai/generate-email": "app/api/ai/generate-email.js",
+  "/api/ai/generate-impact-report": "app/api/ai/generate-impact-report.js"
+}
