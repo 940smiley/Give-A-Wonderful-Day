@@ -12,7 +12,7 @@ export async function autoFillGrantApplication(grantUrl, orgProfile) {
 // Donor Engagement Automation
 export async function sendPersonalizedDonorEmail(donor, donationInfo) {
   // Example: Use AI to generate a personalized email
-  const { data } = await axios.post('/api/ai/generate-email', { donor, donationInfo });
+  const { data } = await axios.post<{ subject: string; body: string }>('/api/ai/generate-email', { donor, donationInfo });
   // Example: Send email via backend
   await axios.post('/api/send-email', { to: donor.email, subject: data.subject, body: data.body });
 }
