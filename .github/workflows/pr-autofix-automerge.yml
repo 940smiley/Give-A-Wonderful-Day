@@ -1,0 +1,56 @@
+name: PR Auto-fix and Auto-merge
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  autofix:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Attempt dependency + lockfile repair
+        run: |
+          npm audit fix || true
+          npm install --package-lock-only || true
+
+      - name: Build verification
+        run: npm run build
+
+      - name: Commit autofixes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: automated PR fixes (audit/lockfile/build)"
+          file_pattern: package-lock.json package.json
+
+  enable-automerge:
+    needs: autofix
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable auto-merge for eligible Dependabot PRs
+        if: github.actor == 'dependabot[bot]'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: squash
