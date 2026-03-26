@@ -1,0 +1,122 @@
+version: 2
+
+updates:
+  # ------------------------------------------------------------
+  # GitHub Actions
+  # ------------------------------------------------------------
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "automerge"
+      - "bot"
+    reviewers:
+      - "940smiley"
+    assignees:
+      - "940smiley"
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  # ------------------------------------------------------------
+  # Node.js / npm
+  # ------------------------------------------------------------
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "automerge"
+      - "bot"
+    reviewers:
+      - "940smiley"
+    assignees:
+      - "940smiley"
+    groups:
+      npm-deps:
+        patterns:
+          - "*"
+
+  # ------------------------------------------------------------
+  # Python (pip)
+  # ------------------------------------------------------------
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "automerge"
+      - "bot"
+    reviewers:
+      - "940smiley"
+    assignees:
+      - "940smiley"
+    groups:
+      python-deps:
+        patterns:
+          - "*"
+
+  # ------------------------------------------------------------
+  # Go Modules
+  # ------------------------------------------------------------
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "automerge"
+      - "bot"
+    reviewers:
+      - "940smiley"
+    assignees:
+      - "940smiley"
+    groups:
+      go-deps:
+        patterns:
+          - "*"
+
+  # ------------------------------------------------------------
+  # Maven (Java)
+  # ------------------------------------------------------------
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "automerge"
+      - "bot"
+    reviewers:
+      - "940smiley"
+    assignees:
+      - "940smiley"
+    groups:
+      maven-deps:
+        patterns:
+          - "*"
+
+  # ------------------------------------------------------------
+  # Docker
+  # ------------------------------------------------------------
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "automerge"
+      - "bot"
+    reviewers:
+      - "940smiley"
+    assignees:
+      - "940smiley"
+    groups:
+      docker-deps:
+        patterns:
+          - "*"
