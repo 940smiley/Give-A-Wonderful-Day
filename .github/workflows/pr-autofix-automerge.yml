@@ -2,22 +2,33 @@ name: PR Auto-fix and Auto-merge
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, labeled]
+    types: [opened, synchronize, reopened, ready_for_review, labeled]
   workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"
 
 permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: pr-autofix-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   autofix:
-    if: github.event.pull_request.draft == false
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PR branch
+        if: github.event_name == 'pull_request'
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Checkout default branch
+        if: github.event_name != 'pull_request'
+        uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -36,7 +47,8 @@ jobs:
       - name: Build verification
         run: npm run build
 
-      - name: Commit autofixes
+      - name: Commit autofixes to same-repo PRs
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: automated PR fixes (audit/lockfile/build)"
@@ -44,11 +56,10 @@ jobs:
 
   enable-automerge:
     needs: autofix
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Enable auto-merge for eligible Dependabot PRs
-        if: github.actor == 'dependabot[bot]'
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
