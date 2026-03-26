@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Grant Application Automation
-export async function autoFillGrantApplication(grantUrl, orgProfile) {
+export async function autoFillGrantApplication(grantUrl: string, orgProfile: Record<string, unknown>) {
   // Example: Scrape and summarize grant requirements
   const { data } = await axios.get(`/api/scrape?url=${encodeURIComponent(grantUrl)}`);
   // Example: Use AI to generate a draft application
@@ -10,15 +10,15 @@ export async function autoFillGrantApplication(grantUrl, orgProfile) {
 }
 
 // Donor Engagement Automation
-export async function sendPersonalizedDonorEmail(donor, donationInfo) {
+export async function sendPersonalizedDonorEmail(donor: Record<string, unknown>, donationInfo: Record<string, unknown>) {
   // Example: Use AI to generate a personalized email
   const { data } = await axios.post<{ subject: string; body: string }>('/api/ai/generate-email', { donor, donationInfo });
   // Example: Send email via backend
-  await axios.post('/api/send-email', { to: donor.email, subject: data.subject, body: data.body });
+  await axios.post('/api/send-email', { to: (donor as { email?: string }).email, subject: data.subject, body: data.body });
 }
 
 // Impact Reporting Automation
-export async function generateImpactReport(onChainData, offChainData) {
+export async function generateImpactReport(onChainData: Record<string, unknown>, offChainData: Record<string, unknown>) {
   // Example: Use AI to analyze and summarize impact
   const { data } = await axios.post('/api/ai/generate-impact-report', { onChainData, offChainData });
   return data;
