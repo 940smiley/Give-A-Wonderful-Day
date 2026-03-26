@@ -1,0 +1,26 @@
+# Agent Context: Give-A-Wonderful-Day
+
+## Project Overview
+Give A Wonderful Day - A nonprofit organization website built with Next.js.
+
+## Key Technologies
+- **Framework**: Next.js
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Contracts**: Smart contracts (possibly Web3)
+
+## Main Files & Directories
+- `app/` - Next.js app router
+- `contracts/` - Smart contracts
+- `.next/` - Build output
+- `intro/` - Introduction content
+- `AI_AUTOMATION_PLAN.md` - AI automation planning
+
+## Purpose
+A website for the "Give A Wonderful Day" nonprofit organization, possibly with blockchain/donation integration.
+
+## Notes
+- Next.js based
+- Has smart contracts
+- AI automation plan documented
+- CNAME record for custom domain
