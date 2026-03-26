@@ -12,14 +12,19 @@ export const NONPROFIT_CONTRACT_ABI = [
   "event DonationReceived(address indexed donor, uint256 amount, string message, uint256 timestamp)"
 ];
 
-if (!NONPROFIT_CONTRACT_ADDRESS || !ethers.utils.isAddress(NONPROFIT_CONTRACT_ADDRESS)) {
-  throw new Error(
-    "NEXT_PUBLIC_NONPROFIT_CONTRACT_ADDRESS is not set or is not a valid Ethereum address"
-  );
-}
-      "NEXT_PUBLIC_NONPROFIT_CONTRACT_ADDRESS is not set"
+export function getContract(
+  signerOrProvider: ethers.Signer | ethers.Provider
+) {
+  if (!NONPROFIT_CONTRACT_ADDRESS) {
+    throw new Error("NEXT_PUBLIC_NONPROFIT_CONTRACT_ADDRESS is not set");
+  }
+
+  if (!ethers.isAddress(NONPROFIT_CONTRACT_ADDRESS)) {
+    throw new Error(
+      "NEXT_PUBLIC_NONPROFIT_CONTRACT_ADDRESS is not a valid Ethereum address"
     );
   }
+
   return new ethers.Contract(
     NONPROFIT_CONTRACT_ADDRESS,
     NONPROFIT_CONTRACT_ABI,
