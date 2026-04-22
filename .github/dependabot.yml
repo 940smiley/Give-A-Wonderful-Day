@@ -8,13 +8,22 @@ updates:
     labels:
       - "dependencies"
       - "security"
+      - "automerge"
     commit-message:
       prefix: "chore(deps)"
-    ignore:
-      - dependency-name: "next"
-        versions: [">14.2.30"]
     groups:
       nextjs-and-react:
         patterns:
           - "react"
           - "react-dom"
+          - "next"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "automerge"
+    commit-message:
+      prefix: "chore(actions)"
