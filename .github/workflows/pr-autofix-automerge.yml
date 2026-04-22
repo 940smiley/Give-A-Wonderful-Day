@@ -22,13 +22,13 @@ jobs:
     steps:
       - name: Checkout PR branch
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Checkout default branch
         if: github.event_name != 'pull_request'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node
         uses: actions/setup-node@v4
