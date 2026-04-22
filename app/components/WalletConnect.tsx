@@ -1,24 +1,43 @@
 import { useEffect, useState } from "react";
 
-// Add type for window.ethereum
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ConnectHandler = (account: string | null) => void;
+
+type WalletConnectProps = {
+  onConnect?: ConnectHandler;
+};
+
+type EthereumProvider = {
+  request: (args: { method: string }) => Promise<string[]>;
+  on: (event: "accountsChanged", listener: (accounts: string[]) => void) => void;
+  removeListener: (event: "accountsChanged", listener: (accounts: string[]) => void) => void;
+};
+
 declare global {
   interface Window {
-    ethereum?: any;
+    ethereum?: EthereumProvider;
   }
 }
 
-export default function WalletConnect({ onConnect }) {
-  const [account, setAccount] = useState(null);
+export default function WalletConnect({ onConnect }: WalletConnectProps) {
+  const [account, setAccount] = useState<string | null>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.ethereum) {
-      window.ethereum.on("accountsChanged", (accounts) => {
-        setAccount(accounts[0] || null);
-        if (onConnect) onConnect(accounts[0] || null);
-      });
+    if (typeof window === "undefined" || !window.ethereum) {
+      return;
     }
+
+    const handleAccountsChanged = (accounts: string[]) => {
+      const nextAccount = accounts[0] || null;
+      setAccount(nextAccount);
+      onConnect?.(nextAccount);
+    };
+
+    window.ethereum.on("accountsChanged", handleAccountsChanged);
+
+    return () => {
+      window.ethereum?.removeListener("accountsChanged", handleAccountsChanged);
+    };
   }, [onConnect]);
 
   const connectWallet = async () => {
@@ -26,12 +45,14 @@ export default function WalletConnect({ onConnect }) {
       setError("MetaMask or Exodus not detected. Please install a wallet extension.");
       return;
     }
+
     try {
       const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-      setAccount(accounts[0]);
+      const nextAccount = accounts[0] || null;
+      setAccount(nextAccount);
       setError("");
-      if (onConnect) onConnect(accounts[0]);
-    } catch (err) {
+      onConnect?.(nextAccount);
+    } catch {
       setError("Wallet connection failed.");
     }
   };

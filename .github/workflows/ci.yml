@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-and-typecheck:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -21,6 +21,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
 
       - name: Build
         run: npm run build
