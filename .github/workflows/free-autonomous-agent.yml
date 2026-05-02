@@ -46,7 +46,7 @@ jobs:
 
       - name: Commit automated repairs (same-repo PR only)
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore: autonomous repair (deps + checks)"
           file_pattern: package-lock.json package.json
