@@ -4,26 +4,28 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 10
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      minor-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
     labels:
       - "dependencies"
-      - "security"
-      - "automerge"
     commit-message:
-      prefix: "chore(deps)"
-    groups:
-      nextjs-and-react:
-        patterns:
-          - "react"
-          - "react-dom"
-          - "next"
+      prefix: "deps"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      actions:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
     labels:
       - "dependencies"
-      - "automerge"
     commit-message:
-      prefix: "chore(actions)"
+      prefix: "deps"
