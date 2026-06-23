@@ -76,10 +76,13 @@
   "overrides": {
     "bn.js": "4.12.3",
     "cookie": "1.1.1",
+    "js-yaml": "5.1.0",
     "lodash": "4.18.1",
     "postcss": "8.5.15",
     "serialize-javascript": "7.0.6",
     "tmp": "0.2.7",
+    "undici": "6.27.0",
+    "uuid": "11.1.1",
     "ws": "8.21.0"
   },
   "prisma": {
