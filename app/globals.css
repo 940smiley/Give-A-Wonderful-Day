@@ -2,7 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
+  margin: 0;
   background: #f8fafc;
-  color: #222;
+  color: #0f172a;
+}
+
+a,
+button,
+input,
+textarea,
+select {
+  outline-color: #047857;
 }
