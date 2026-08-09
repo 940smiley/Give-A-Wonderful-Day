@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "check": "npm run typecheck && npm run build"
+    "check": "npm run typecheck && NODE_ENV=production npm run build"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.6.1",
