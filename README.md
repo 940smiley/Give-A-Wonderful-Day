@@ -1,38 +1,50 @@
 # Give-A-Wonderful-Day
-A proposed 501(c)(3) nonprofit organization dedicated to bringing joy and respite to individuals facing significant life challenges with a single day of pure joy and respite, fostering hope, happiness, and a renewed sense of self-worth.
 
-## Smart Contracts
-- `contracts/NonprofitDonation.sol`: Core contract for transparent donations and fund management.
-- `contracts/ThankYouNFT.sol`: Optional NFT thank-you experience for supporters.
-- `contracts/SimpleDAO.sol`: Governance extension for nonprofit decisions.
+**Give-A-Wonderful-Day** is a proposed 501(c)(3) nonprofit organization dedicated to bringing joy and respite to individuals facing significant life challenges. Our mission is to provide a single day of pure joy and respite, fostering hope, happiness, and a renewed sense of self-worth through direct action and community support.
 
-## Launching the DApp (Web3-ready)
-1. Install dependencies with `npm install`.
-2. Copy `.env.example` to `.env.local`.
-3. Set `NEXT_PUBLIC_NONPROFIT_CONTRACT_ADDRESS` to your deployed `NonprofitDonation` contract address.
-4. Start locally with `npm run dev`.
-5. Open `http://localhost:3000` and connect MetaMask/Exodus.
+## Project Overview
 
-### What is now included
-- Wallet connection flow and account change handling.
-- Live contract balance display.
-- Donation transaction submission and confirmation status.
-- On-chain `DonationReceived` event history display (latest events).
-- AI automation test UI for grant drafting, donor outreach, and impact reports.
+This repository contains the Web3-ready DApp and smart contracts that power the organization's transparent donation and governance system.
 
-## Repository Automation
-This repository includes CI and automation workflows to support continuous maintenance:
-- **CI**: install, typecheck, and production build.
-- **PR auto-fix**: lockfile refresh/audit fixes with commit-back for same-repo PRs.
-- **Dependabot**: npm + GitHub Actions updates.
-- **Dependabot auto-merge**: enables auto-merge for safe dependency PRs that pass checks.
-- **Maintenance report**: periodic summary issue with open PR/issue snapshot and dependency labeling.
+### Smart Contracts
+- **NonprofitDonation.sol:** Core contract for transparent donations and fund management.
+- **ThankYouNFT.sol:** An NFT-based thank-you experience for supporters.
+- **SimpleDAO.sol:** Governance extension for community-driven nonprofit decisions.
 
-## Commands
-- `npm run dev` – local development server.
-- `npm run typecheck` – TypeScript validation.
-- `npm run build` – production build.
-- `npm run check` – typecheck + build.
+## Features
 
----
-For questions or to request a specific feature, see the `intro` file or contact the project maintainer.
+- **Wallet Integration:** Seamless connection with MetaMask and Exodus.
+- **Transparency:** Live on-chain contract balance and donation history.
+- **AI Automation:** Built-in tools for grant drafting, donor outreach, and impact reporting.
+- **DAO Governance:** Community voting on nonprofit initiatives.
+
+## Tech Stack
+
+- **Frontend:** Next.js 16, React, Tailwind CSS
+- **Smart Contracts:** Solidity, Hardhat
+- **Automation:** GitHub Actions, AI-driven reporting
+
+## Getting Started
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+2. **Environment Setup:**
+   Copy `.env.example` to `.env.local` and configure your contract addresses and RPC providers.
+3. **Run Locally:**
+   ```bash
+   npm run dev
+   ```
+
+## TODO List
+
+- [ ] **Issue Management:** Resolve the high volume of automated maintenance snapshots and implement a consolidated reporting system.
+- [ ] **Contract Audit:** Perform a comprehensive security audit of the `NonprofitDonation` contract.
+- [ ] **AI Refinement:** Enhance the impact report generation logic with more granular data inputs.
+- [ ] **Community Outreach:** Develop the donor dashboard to show individual impact metrics.
+- [ ] **DAO Expansion:** Implement more complex voting mechanisms for project selection.
+
+## License
+
+MIT License
