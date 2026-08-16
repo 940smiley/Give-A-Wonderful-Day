@@ -3,7 +3,11 @@ name: Repository Maintenance Report
 on:
   workflow_dispatch:
   schedule:
+<<<<<<< HEAD
     - cron: "15 */6 * * *"
+=======
+    - cron: '15 */6 * * *'
+>>>>>>> origin/codex/production-readiness-upgrade
 
 permissions:
   contents: read
@@ -15,7 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate open PR/issue report and apply basic labels
+<<<<<<< HEAD
         uses: actions/github-script@v9
+=======
+        uses: actions/github-script@v7
+>>>>>>> origin/codex/production-readiness-upgrade
         with:
           script: |
             const owner = context.repo.owner;

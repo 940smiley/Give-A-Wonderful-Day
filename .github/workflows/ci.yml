@@ -5,6 +5,7 @@ on:
   push:
     branches: [main]
 
+<<<<<<< HEAD
 jobs:
   build-and-typecheck:
     runs-on: ubuntu-latest
@@ -17,13 +18,103 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 20
+=======
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+>>>>>>> origin/codex/production-readiness-upgrade
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
+<<<<<<< HEAD
       - name: Type check
         run: npm run typecheck
 
       - name: Build
         run: npm run build
+=======
+      - name: Lint
+        run: npm run lint
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: TypeScript
+        run: npm run typecheck
+
+      - name: Unit and API tests
+        run: npm run test
+
+      - name: Contract compile
+        run: npm run contract:compile
+
+      - name: Contract tests
+        run: npm run contract:test
+
+      - name: Contract coverage
+        run: npm run contract:coverage
+
+      - name: Production build
+        run: npm run build
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Playwright tests
+        run: npm run test:e2e
+
+      - name: Dependency audit
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Secret pattern scan
+        run: |
+          ! git grep -nE "(PRIVATE KEY|seed phrase|AKIA[0-9A-Z]{16}|xox[baprs]-|ghp_[A-Za-z0-9_]{36,})" -- . ':!.next' ':!node_modules'
+
+      - name: Upload failed test artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failed-test-artifacts
+          path: |
+            playwright-report
+            test-results
+            coverage
+          if-no-files-found: ignore
+
+  codeql:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: javascript-typescript
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v4
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+>>>>>>> origin/codex/production-readiness-upgrade

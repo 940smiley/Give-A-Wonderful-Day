@@ -1,5 +1,6 @@
 version: 2
 updates:
+<<<<<<< HEAD
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -29,3 +30,35 @@ updates:
       - "dependencies"
     commit-message:
       prefix: "deps"
+=======
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - security
+    commit-message:
+      prefix: chore(deps)
+    groups:
+      nextjs-and-react:
+        patterns:
+          - next
+          - react
+          - react-dom
+      hardhat:
+        patterns:
+          - hardhat
+          - '@nomicfoundation/*'
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - security
+    commit-message:
+      prefix: chore(actions)
+>>>>>>> origin/codex/production-readiness-upgrade
