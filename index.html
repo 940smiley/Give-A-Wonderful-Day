@@ -1,23 +1,753 @@
+
+---
+
+# 2. Replace `index.html`
+
+This is the important one for the **static GitHub Pages / Render presentation**. I would move away from "Local-first kindness demo" as the primary identity.
+
+The hero should immediately answer:
+
+**What is this? Who is it for? What does the app actually do? Why does the technology matter?**
+
+Use this:
+
+```html
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Give A Wonderful Day | Local-first kindness demo</title>
-    <meta name="description" content="A mission-first mobile DApp demo for recording small kindness moments before committing to Web3 infrastructure." />
-    <style>
-      :root { --ink:#1f2a33; --cream:#fff9ef; --paper:#fffdf8; --yellow:#f6c453; --coral:#d96849; --muted:#655e53; --line:#eadcc2; }
-      * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; background:var(--cream); color:var(--ink); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; } a { color:inherit; text-decoration:none; } .wrap { max-width:1120px; margin:auto; padding:0 24px; } .nav { display:flex; align-items:center; justify-content:space-between; padding:24px 0; font-weight:800; } .brand { display:flex; gap:12px; align-items:center; } .sun { display:grid; place-items:center; width:40px; height:40px; border-radius:16px; background:var(--yellow); font-size:20px; } .chip, .button { display:inline-block; padding:12px 16px; border:1px solid var(--coral); border-radius:16px; font-weight:800; } .hero { display:grid; grid-template-columns:1.2fr .8fr; gap:56px; align-items:center; padding:72px 0 80px; } .eyebrow { color:#a66313; font-weight:800; letter-spacing:.15em; text-transform:uppercase; font-size:12px; } h1 { font-size:64px; line-height:1.02; letter-spacing:-.055em; margin:14px 0 0; } h2 { font-size:40px; line-height:1.06; letter-spacing:-.04em; margin:12px 0; } h3 { margin:20px 0 0; font-size:22px; letter-spacing:-.025em; } p { line-height:1.6; } .lead { color:var(--muted); font-size:18px; max-width:660px; margin:24px 0; } .actions { display:flex; flex-wrap:wrap; gap:12px; } .primary { background:var(--yellow); border-color:var(--yellow); } .note { color:#7c705e; font-size:14px; max-width:560px; } .phone { max-width:390px; margin:auto; padding:20px; border:1px solid var(--line); background:var(--paper); border-radius:32px; box-shadow:0 24px 70px rgba(76,54,20,.12); } .phoneTop, .row { display:flex; align-items:center; justify-content:space-between; } .phoneHero { margin-top:20px; padding:20px; background:var(--yellow); border-radius:26px; } .prompt { display:inline-block; border-radius:999px; padding:6px 10px; background:#fff0c4; font-weight:800; font-size:12px; color:#725412; } .phoneHero p { font-size:24px; line-height:1.3; font-weight:800; margin:16px 0; } .phoneButton { background:var(--ink); color:#fff; padding:12px; text-align:center; border-radius:16px; font-size:14px; font-weight:800; } .record { margin-top:16px; padding:16px; border:1px solid var(--line); border-radius:18px; color:var(--muted); font-size:14px; } .record b { color:var(--ink); } .record .connection { display:block; margin-top:12px; color:#4c8fb6; font-weight:800; font-size:12px; } .facts { border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--paper); } .factGrid, .cards { display:grid; grid-template-columns:repeat(3, 1fr); gap:32px; padding:44px 0; } .factGrid p { font-weight:700; font-size:18px; margin:10px 0 0; } .section { padding:80px 0; } .cards { grid-template-columns:repeat(2, 1fr); padding:24px 0 0; gap:16px; } .card { border:1px solid var(--line); border-radius:24px; padding:24px; background:var(--paper); } .card .stage { color:var(--coral); font-size:12px; font-weight:800; letter-spacing:.15em; text-transform:uppercase; } .card p { color:var(--muted); } .dark { background:var(--ink); color:var(--cream); } .dark .lead { color:#d9d6cd; } .darkCards { display:grid; grid-template-columns:repeat(2, 1fr); gap:16px; } .darkCard { border:1px solid #4a5558; border-radius:24px; padding:20px; background:#293235; } .darkCard h3 { margin-top:0; font-size:18px; } .darkCard p { color:#cbd0c8; font-size:14px; } .disclosure { margin-top:36px; padding:24px; border:1px solid #4a5558; border-radius:24px; background:#273034; font-size:14px; color:#d9d6cd; } footer { display:flex; justify-content:space-between; gap:20px; padding:28px 0; color:#716657; font-size:14px; } footer div { display:flex; gap:20px; font-weight:800; } @media (max-width:740px) { .hero { grid-template-columns:1fr; padding:40px 0 56px; gap:38px; } h1 { font-size:48px; } h2 { font-size:34px; } .factGrid, .cards, .darkCards { grid-template-columns:1fr; } .factGrid { gap:24px; } .cards { gap:12px; } footer { flex-direction:column; } }
-    </style>
-  </head>
-  <body>
-    <div class="wrap">
-      <nav class="nav"><a class="brand" href="#top"><span class="sun">☀</span><span>Give A Wonderful Day</span></a><a class="chip" href="#brief">Partner brief</a></nav>
-      <section id="top" class="hero"><div><p class="eyebrow">Mobile DApp demo · Mission-first</p><h1>Make room for a wonderful day.</h1><p class="lead">Give A Wonderful Day is a local-first mobile demo for turning a small act of encouragement into a memorable kindness moment. It tests care and clarity before any Web3 feature is asked to earn its place.</p><div class="actions"><a class="button primary" href="https://github.com/940smiley/Give-A-Wonderful-Day">Explore the project</a><a class="button" href="#roadmap">Read the roadmap</a></div><p class="note">The demo does not process donations, hold funds, connect wallets, issue tokens, or claim tax-deductibility.</p></div><div class="phone"><div class="phoneTop"><b>Today</b><span class="sun">☀</span></div><div class="phoneHero"><span class="prompt">Today’s gentle prompt</span><p>Send someone a small reason to feel seen.</p><div class="phoneButton">Send a wonder →</div></div><div class="record"><div class="row"><b>A neighbor</b><small>Demo record</small></div><p>Thinking of you today. Your presence makes this block warmer.</p><span class="connection">Connection</span></div></div></section>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Give A Wonderful Day | One Day of Joy Can Change Everything</title>
+
+  <meta
+    name="description"
+    content="Give A Wonderful Day is a mission-first platform being built to help people facing significant life challenges experience personalized days of joy, respite, connection, and hope."
+  />
+
+  <style>
+    :root {
+      --ink: #1f2a33;
+      --cream: #fff9ef;
+      --paper: #fffdf8;
+      --yellow: #f6c453;
+      --coral: #d96849;
+      --blue: #4c8fb6;
+      --muted: #655e53;
+      --line: #eadcc2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family:
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: auto;
+      padding: 0 24px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+      font-weight: 800;
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .sun {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      background: var(--yellow);
+      font-size: 21px;
+    }
+
+    .chip,
+    .button {
+      display: inline-block;
+      padding: 12px 17px;
+      border: 1px solid var(--coral);
+      border-radius: 16px;
+      font-weight: 800;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 64px;
+      align-items: center;
+      padding: 76px 0 90px;
+    }
+
+    .eyebrow {
+      color: #a66313;
+      font-weight: 900;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    h1 {
+      font-size: 64px;
+      line-height: 1.01;
+      letter-spacing: -.055em;
+      margin: 14px 0 0;
+    }
+
+    h2 {
+      font-size: 42px;
+      line-height: 1.06;
+      letter-spacing: -.04em;
+      margin: 12px 0;
+    }
+
+    h3 {
+      margin: 18px 0 0;
+      font-size: 22px;
+      letter-spacing: -.025em;
+    }
+
+    p {
+      line-height: 1.65;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 19px;
+      max-width: 690px;
+      margin: 25px 0;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .primary {
+      background: var(--yellow);
+      border-color: var(--yellow);
+    }
+
+    .note {
+      color: #7c705e;
+      font-size: 14px;
+      max-width: 610px;
+      margin-top: 18px;
+    }
+
+    .experience {
+      max-width: 410px;
+      margin: auto;
+      padding: 22px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 34px;
+      box-shadow: 0 24px 70px rgba(76,54,20,.12);
+    }
+
+    .experience-top,
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .experience-card {
+      margin-top: 20px;
+      padding: 23px;
+      background: var(--yellow);
+      border-radius: 28px;
+    }
+
+    .prompt {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: #fff0c4;
+      font-weight: 900;
+      font-size: 12px;
+      color: #725412;
+    }
+
+    .experience-card h3 {
+      font-size: 28px;
+      line-height: 1.25;
+      margin-top: 16px;
+    }
+
+    .experience-button {
+      margin-top: 20px;
+      background: var(--ink);
+      color: white;
+      padding: 13px;
+      text-align: center;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .record {
+      margin-top: 16px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 19px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .record b {
+      color: var(--ink);
+    }
+
+    .connection {
+      display: block;
+      margin-top: 12px;
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .facts {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .fact-grid,
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      padding: 48px 0;
+    }
+
+    .fact-grid p {
+      font-weight: 700;
+      font-size: 18px;
+      margin: 10px 0 0;
+    }
+
+    .section {
+      padding: 88px 0;
+    }
+
+    .section-intro {
+      max-width: 730px;
+    }
+
+    .cards {
+      grid-template-columns: repeat(2, 1fr);
+      padding: 28px 0 0;
+      gap: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 25px;
+      background: var(--paper);
+    }
+
+    .card .stage {
+      color: var(--coral);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .card p {
+      color: var(--muted);
+    }
+
+    .journey {
+      margin-top: 40px;
+      padding: 25px;
+      border-radius: 26px;
+      background: #fff3d3;
+      border: 1px solid #efd58b;
+      font-size: 18px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .journey span {
+      color: var(--coral);
+      margin: 0 5px;
+    }
+
+    .dark {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .dark .lead {
+      color: #d9d6cd;
+    }
+
+    .dark .eyebrow {
+      color: var(--yellow);
+    }
+
+    .dark-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 34px;
+    }
+
+    .dark-card {
+      border: 1px solid #4a5558;
+      border-radius: 24px;
+      padding: 21px;
+      background: #293235;
+    }
+
+    .dark-card h3 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    .dark-card p {
+      color: #cbd0c8;
+      font-size: 14px;
+    }
+
+    .disclosure {
+      margin-top: 36px;
+      padding: 24px;
+      border: 1px solid #4a5558;
+      border-radius: 24px;
+      background: #273034;
+      font-size: 14px;
+      color: #d9d6cd;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 30px 0;
+      color: #716657;
+      font-size: 14px;
+    }
+
+    footer div {
+      display: flex;
+      gap: 20px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 740px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 44px 0 60px;
+        gap: 40px;
+      }
+
+      h1 {
+        font-size: 49px;
+      }
+
+      h2 {
+        font-size: 35px;
+      }
+
+      .fact-grid,
+      .cards,
+      .dark-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .fact-grid {
+        gap: 25px;
+      }
+
+      footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrap">
+
+    <nav class="nav">
+      <a class="brand" href="#top">
+        <span class="sun">☀</span>
+        <span>Give A Wonderful Day</span>
+      </a>
+
+      <a class="chip" href="#mission">Our mission</a>
+    </nav>
+
+    <section id="top" class="hero">
+
+      <div>
+
+        <p class="eyebrow">A mission powered by technology</p>
+
+        <h1>
+          Give someone a day they will remember.
+        </h1>
+
+        <p class="lead">
+          Give A Wonderful Day is being built to help people facing
+          significant life challenges experience a personalized day of
+          joy, respite, connection, and hope.
+        </p>
+
+        <div class="actions">
+          <a
+            class="button primary"
+            href="https://github.com/940smiley/Give-A-Wonderful-Day"
+          >
+            Explore the project
+          </a>
+
+          <a class="button" href="#how">
+            See how it works
+          </a>
+        </div>
+
+        <p class="note">
+          The project is currently in early development. The prototype is
+          not a live charitable payment system and does not represent
+          that contributions are tax-deductible.
+        </p>
+
+      </div>
+
+      <div class="experience">
+
+        <div class="experience-top">
+          <b>A Wonderful Day</b>
+          <span class="sun">☀</span>
+        </div>
+
+        <div class="experience-card">
+
+          <span class="prompt">
+            The experience
+          </span>
+
+          <h3>
+            What would make this person's day wonderful?
+          </h3>
+
+          <div class="experience-button">
+            Plan the experience →
+          </div>
+
+        </div>
+
+        <div class="record">
+
+          <div class="row">
+            <b>Participant experience</b>
+            <small>Concept</small>
+          </div>
+
+          <p>
+            Personalized around the person — their interests,
+            circumstances, needs, and what would genuinely bring them joy.
+          </p>
+
+          <span class="connection">
+            Person first · Technology second
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <section class="facts">
+
+    <div class="wrap fact-grid">
+
+      <div>
+        <span class="eyebrow">The mission</span>
+
+        <p>
+          Create meaningful days of joy for people carrying difficult
+          circumstances.
+        </p>
+      </div>
+
+      <div>
+        <span class="eyebrow">The platform</span>
+
+        <p>
+          Help coordinate referrals, experiences, funding, impact, and
+          transparent reporting.
+        </p>
+      </div>
+
+      <div>
+        <span class="eyebrow">The technology</span>
+
+        <p>
+          Use Web3 and automation only where they make the mission more
+          transparent, accountable, or scalable.
+        </p>
+      </div>
+
     </div>
-    <section class="facts"><div class="wrap factGrid"><div><span class="eyebrow">What it is</span><p>A calm, one-handed mobile experience for recording small kindness moments.</p></div><div><span class="eyebrow">What it is not</span><p>A wallet, donation portal, token sale, NFT marketplace, or on-chain claim.</p></div><div><span class="eyebrow">Why now</span><p>The project can learn from people and partners before committing to permanent technical or financial mechanisms.</p></div></div></section>
-    <section id="roadmap" class="wrap section"><p class="eyebrow">Measured roadmap</p><h2>Trust before scale.</h2><p class="lead">The roadmap prioritizes clear governance, participant safety, and evidence of usefulness. Web3 is a later design question, not a premise.</p><div class="cards"><article class="card"><span class="stage">Now</span><h3>Demo readiness</h3><p>A local-first mobile demo with clear labels and no wallet, payment, token, or live-chain activity.</p></article><article class="card"><span class="stage">Next</span><h3>Design-partner pilot</h3><p>A tightly scoped partner cohort to test participant value, safeguards, and consent-led measurement.</p></article><article class="card"><span class="stage">Then</span><h3>Operational launch</h3><p>Governance, fundraising controls, privacy practices, and program operations before wider availability.</p></article><article class="card"><span class="stage">Later</span><h3>Web3 utility assessment</h3><p>A go/no-go decision based on whether decentralized provenance delivers a meaningful, safer user benefit.</p></article></div><a class="button" href="docs/LAUNCH_PLAN.md">Read the full launch plan →</a></section>
-    <section id="brief" class="dark"><div class="wrap section"><p class="eyebrow" style="color:#f6c453">For funders and partners</p><h2>Fund learning, safeguards, and mission delivery.</h2><p class="lead">The early funding posture is philanthropy and partnership-led. It does not depend on speculative token economics or participant data monetization.</p><div class="darkCards"><article class="darkCard"><h3>Foundational grants</h3><p>Pilot design, safeguards, evaluation, and community-partner learning.</p></article><article class="darkCard"><h3>Mission-aligned partnerships</h3><p>Sponsored cohorts and practical support that preserve participant dignity.</p></article><article class="darkCard"><h3>Major gifts and recurring giving</h3><p>Mission delivery and capacity after appropriate organizational controls are in place.</p></article><article class="darkCard"><h3>In-kind technology support</h3><p>Independent security review, product research, and responsible infrastructure.</p></article></div><a class="button primary" href="docs/FUNDING_AND_PARTNERSHIP_BRIEF.md">Read the funding brief →</a><div class="disclosure"><b>Disclosure</b><br />This page is a project overview, not an offer to sell securities, a solicitation of investment, or a representation that contributions are tax-deductible. The repository describes a proposed nonprofit; organization, fundraising, privacy, and Web3 decisions must be independently validated before a public operational launch.</div></div></section>
-    <footer class="wrap"><span>Give A Wonderful Day · Local-first mobile demo</span><div><a href="https://github.com/940smiley/Give-A-Wonderful-Day">GitHub</a><a href="docs/entity_card.md">Project status</a></div></footer>
-  </body>
+
+  </section>
+
+
+  <section id="mission" class="wrap section">
+
+    <div class="section-intro">
+
+      <p class="eyebrow">The idea</p>
+
+      <h2>
+        The person is the product.
+      </h2>
+
+      <p class="lead">
+        Give A Wonderful Day is not being created to build another token,
+        another wallet, or another donation dashboard. It is being created
+        around a human outcome: someone gets a day that gives them a reason
+        to smile, reconnect, breathe, or simply feel seen.
+      </p>
+
+    </div>
+
+    <div class="cards">
+
+      <article class="card">
+        <span class="stage">Who</span>
+        <h3>People facing hardship</h3>
+        <p>
+          People experiencing illness, poverty, homelessness, trauma,
+          foster-care disadvantage, veteran-related challenges, or other
+          circumstances that make ordinary life unusually difficult.
+        </p>
+      </article>
+
+      <article class="card">
+        <span class="stage">What</span>
+        <h3>A personalized experience</h3>
+        <p>
+          A concert, sporting event, meal, adventure, creative activity,
+          family experience, retreat, or something else that actually
+          matters to the person receiving it.
+        </p>
+      </article>
+
+      <article class="card">
+        <span class="stage">Why</span>
+        <h3>Joy and respite matter</h3>
+        <p>
+          A difficult circumstance should not define every moment of
+          someone's life. A wonderful experience can create connection,
+          dignity, hope, and memories that last beyond one day.
+        </p>
+      </article>
+
+      <article class="card">
+        <span class="stage">Measure</span>
+        <h3>Wonderful Days delivered</h3>
+        <p>
+          The goal is not simply to measure money raised. The goal is to
+          measure meaningful experiences created and the people reached.
+        </p>
+      </article>
+
+    </div>
+
+  </section>
+
+
+  <section id="how" class="wrap section">
+
+    <p class="eyebrow">How the platform fits together</p>
+
+    <h2>
+      From need to impact.
+    </h2>
+
+    <p class="lead">
+      The long-term platform is intended to support the entire journey
+      while protecting participant privacy and dignity.
+    </p>
+
+    <div class="journey">
+      Need
+      <span>→</span>
+      Referral
+      <span>→</span>
+      Planning
+      <span>→</span>
+      Funding
+      <span>→</span>
+      Wonderful Day
+      <span>→</span>
+      Impact
+      <span>→</span>
+      Reporting
+    </div>
+
+  </section>
+
+
+  <section class="dark">
+
+    <div class="wrap section">
+
+      <p class="eyebrow">Technology that earns its place</p>
+
+      <h2>
+        Web3 is infrastructure — not the mission.
+      </h2>
+
+      <p class="lead">
+        Blockchain technology is being explored because it may provide
+        transparent, verifiable infrastructure for charitable activity.
+        It will only be used where it creates meaningful value.
+      </p>
+
+      <div class="dark-cards">
+
+        <article class="dark-card">
+          <h3>Transparent giving</h3>
+          <p>
+            Potentially provide independently verifiable records of
+            donations and approved treasury activity.
+          </p>
+        </article>
+
+        <article class="dark-card">
+          <h3>Verifiable impact</h3>
+          <p>
+            Connect program milestones to public records without putting
+            sensitive participant information on-chain.
+          </p>
+        </article>
+
+        <article class="dark-card">
+          <h3>Smart automation</h3>
+          <p>
+            Automate appropriate fundraising, matching, allocation, and
+            reporting workflows when doing so improves accountability.
+          </p>
+        </article>
+
+        <article class="dark-card">
+          <h3>Community governance</h3>
+          <p>
+            Eventually enable appropriate community participation in
+            decisions affecting the mission.
+          </p>
+        </article>
+
+        <article class="dark-card">
+          <h3>Digital recognition</h3>
+          <p>
+            Give supporters optional digital recognition without turning
+            charitable participation into speculation.
+          </p>
+        </article>
+
+        <article class="dark-card">
+          <h3>Privacy by design</h3>
+          <p>
+            Keep personal participant information protected while making
+            financial and program accountability as transparent as
+            practical.
+          </p>
+        </article>
+
+      </div>
+
+      <div class="disclosure">
+
+        <strong>Current status</strong>
+
+        <br /><br />
+
+        Give A Wonderful Day is an early-stage project and proposed
+        nonprofit initiative. The current prototype is not a live
+        charitable financial system, investment product, token offering,
+        or representation that contributions are tax-deductible.
+
+        <br /><br />
+
+        Future fundraising, 501(c)(3) status, smart-contract deployment,
+        tokenization, DAO governance, and financial mechanisms remain
+        subject to organizational, legal, security, and product
+        validation.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <footer class="wrap">
+
+    <span>
+      Give A Wonderful Day · One wonderful day at a time.
+    </span>
+
+    <div>
+      <a href="https://github.com/940smiley/Give-A-Wonderful-Day">
+        GitHub
+      </a>
+
+      <a href="docs/LAUNCH_PLAN.md">
+        Roadmap
+      </a>
+
+      <a href="docs/FUNDING_AND_PARTNERSHIP_BRIEF.md">
+        Partners
+      </a>
+    </div>
+
+  </footer>
+
+</body>
 </html>
