@@ -1,31 +1,40 @@
 version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 5
-    groups:
-      minor-patch:
-        patterns: ["*"]
-        update-types: ["minor", "patch"]
-    labels:
-      - "dependencies"
-    commit-message:
-      prefix: "deps"
 
-  - package-ecosystem: "github-actions"
-    directory: "/"
+updates:
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 5
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
     groups:
-      actions:
-        patterns: ["*"]
-        update-types: ["minor", "patch"]
+      weekly-dependencies:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
     labels:
-      - "dependencies"
+      - dependencies
+      - automated
     commit-message:
-      prefix: "deps"
+      prefix: deps
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    groups:
+      weekly-actions:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+    labels:
+      - dependencies
+      - automated
+    commit-message:
+      prefix: ci
