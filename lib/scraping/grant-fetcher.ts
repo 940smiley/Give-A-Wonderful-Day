@@ -100,14 +100,14 @@ export async function fetchGrantPage(rawUrl: string): Promise<GrantPageResult> {
       }
 
       const body = await readLimitedBody(response, 1_000_000);
-      const sanitized = sanitizeHtmlToText(body).text.slice(0, 20_000);
-      const title = sanitizeHtmlToText(body).title;
+      // Parse HTML once and destructure both title and text to avoid a second full parse.
+      const { title, text } = sanitizeHtmlToText(body);
 
       return {
         url: redactUrlForLog(rawUrl),
         finalUrl: redactUrlForLog(current.toString()),
         title,
-        text: sanitized,
+        text: text.slice(0, 20_000),
         contentType,
       };
     }

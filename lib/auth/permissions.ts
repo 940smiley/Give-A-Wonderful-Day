@@ -39,6 +39,7 @@ const rolePermissions: Record<RoleName, Permission[]> = {
   VOLUNTEER: ['admin:view'],
   CONTENT_EDITOR: ['admin:view', 'content:manage'],
   AUDITOR: ['admin:view', 'audit:view'],
+  HOTLINE_AGENT: ['admin:view', 'nomination:review', 'recipient:manage'],
 };
 
 export function hasPermission(role: RoleName | undefined, permission: Permission): boolean {

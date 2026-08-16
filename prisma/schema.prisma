@@ -16,6 +16,12 @@ enum RoleName {
   VOLUNTEER
   CONTENT_EDITOR
   AUDITOR
+  HOTLINE_AGENT
+}
+
+enum NominationType {
+  STANDARD
+  HOTLINE_GRANT
 }
 
 enum NominationStatus {
@@ -119,6 +125,7 @@ model User {
   sessions        Session[]
   auditLogs       AuditLog[]
   nominationsMade Nomination[] @relation("NominationReviewer")
+  chatEscalations ChatEscalation[]
 
   @@index([roleId])
   @@index([deletedAt])
@@ -160,6 +167,7 @@ model VerificationToken {
 
 model Nomination {
   id                  String           @id @default(uuid())
+  type                NominationType   @default(STANDARD)
   status              NominationStatus @default(SUBMITTED)
   /// PII: nominee name supplied by a public nominator.
   nomineeName         String
@@ -201,6 +209,8 @@ model Recipient {
   consents       Consent[]
   wonderfulDays  WonderfulDay[]
   communications Communication[]
+  nftMinted      Boolean        @default(false)
+  nftTokenId     String?
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   deletedAt      DateTime?
@@ -443,4 +453,49 @@ model AuditLog {
 
   @@index([actorId, createdAt])
   @@index([entity, entityId])
+}
+
+enum ChatStatus {
+  ACTIVE
+  ESCALATED
+  CLOSED
+}
+
+enum ChatRole {
+  USER
+  GAWD
+  SYSTEM
+}
+
+model ChatSession {
+  id          String        @id @default(uuid())
+  status      ChatStatus    @default(ACTIVE)
+  startedAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  escalation  ChatEscalation?
+  messages    ChatMessage[]
+}
+
+model ChatMessage {
+  id            String       @id @default(uuid())
+  chatSessionId String
+  chatSession   ChatSession  @relation(fields: [chatSessionId], references: [id])
+  role          ChatRole
+  content       String       @db.Text
+  timestamp     DateTime     @default(now())
+  
+  @@index([chatSessionId, timestamp])
+}
+
+model ChatEscalation {
+  id            String       @id @default(uuid())
+  chatSessionId String       @unique
+  chatSession   ChatSession  @relation(fields: [chatSessionId], references: [id])
+  agentId       String?
+  agent         User?        @relation(fields: [agentId], references: [id])
+  reason        String
+  escalatedAt   DateTime     @default(now())
+  resolvedAt    DateTime?
+  
+  @@index([agentId])
 }

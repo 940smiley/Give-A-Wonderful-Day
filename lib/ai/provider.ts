@@ -23,6 +23,20 @@ export type GrantDraftInput = z.infer<typeof grantDraftInputSchema>;
 export type DonorEmailInput = z.infer<typeof donorEmailInputSchema>;
 export type ImpactReportInput = z.infer<typeof impactReportInputSchema>;
 
+export type ChatMessageRole = 'USER' | 'GAWD' | 'SYSTEM';
+export type ChatHistoryInput = { role: ChatMessageRole; content: string }[];
+
+export type ChatResponse = {
+  response: string;
+  flagged: boolean;
+};
+
+export const GuardrailScanner = {
+  isFlagged(text: string): boolean {
+    return /(kill myself|suicide|murder|end my life|want to die)/i.test(text);
+  }
+};
+
 export type DraftMetadata = {
   provider: string;
   model: string;
@@ -50,6 +64,7 @@ export interface AiProvider {
   generateGrantDraft(input: GrantDraftInput): Promise<GrantDraft>;
   generateDonorEmail(input: DonorEmailInput): Promise<DonorEmailDraft>;
   generateImpactReport(input: ImpactReportInput): Promise<ImpactReportDraft>;
+  chatWithGawd(history: ChatHistoryInput): Promise<ChatResponse>;
 }
 
 function metadata(provider: string): DraftMetadata {
@@ -96,6 +111,20 @@ class MockAiProvider implements AiProvider {
       metadata: metadata('mock'),
     };
   }
+
+  async chatWithGawd(history: ChatHistoryInput): Promise<ChatResponse> {
+    const lastMessage = history.length > 0 ? history[history.length - 1]?.content ?? '' : '';
+    if (GuardrailScanner.isFlagged(lastMessage)) {
+      return {
+        response: 'I am concerned about what you just shared. I am escalating this to a live agent who can help.',
+        flagged: true,
+      };
+    }
+    return {
+      response: 'I hear you. (Mock GAWD response)',
+      flagged: false,
+    };
+  }
 }
 
 class HttpJsonAiProvider extends MockAiProvider {
@@ -109,6 +138,25 @@ class HttpJsonAiProvider extends MockAiProvider {
 
   async generateImpactReport(input: ImpactReportInput): Promise<ImpactReportDraft> {
     return this.request<ImpactReportDraft>('impact-report', input);
+  }
+
+  async chatWithGawd(history: ChatHistoryInput): Promise<ChatResponse> {
+    const lastMessage = history.length > 0 ? history[history.length - 1]?.content ?? '' : '';
+    if (GuardrailScanner.isFlagged(lastMessage)) {
+      return {
+        response: 'I am concerned about what you just shared. I am escalating this to a live agent who can help.',
+        flagged: true,
+      };
+    }
+    const result = await this.request<{ response: string }>('chat-gawd', history);
+    // Double check the output just in case the AI generated something sensitive
+    if (GuardrailScanner.isFlagged(result.response)) {
+        return {
+          response: 'I am concerned about this conversation. I am escalating this to a live agent who can help.',
+          flagged: true,
+        };
+    }
+    return { response: result.response, flagged: false };
   }
 
   private async request<T>(task: string, input: unknown): Promise<T> {
