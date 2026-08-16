@@ -10,25 +10,38 @@ export type GrantPageResult = {
   contentType: string;
 };
 
+function unescapeHtmlEntities(text: string): string {
+  return text.replace(/&(nbsp|amp|lt|gt|quot|#39);/gi, (match, entity: string) => {
+    switch (entity.toLowerCase()) {
+      case 'nbsp':
+        return ' ';
+      case 'lt':
+        return '<';
+      case 'gt':
+        return '>';
+      case 'quot':
+        return '"';
+      case '#39':
+        return "'";
+      case 'amp':
+        return '&';
+      default:
+        return match;
+    }
+  });
+}
+
 function sanitizeHtmlToText(html: string): { title?: string; text: string } {
-  const title = html
-    .match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]
-    ?.replace(/\s+/g, ' ')
-    .trim();
+  const rawTitle = html.match(/<title\b[^>]*>([\s\S]*?)<\/title\s*>/i)?.[1];
+  const title = rawTitle ? unescapeHtmlEntities(rawTitle).replace(/\s+/g, ' ').trim() : undefined;
+
   const withoutUnsafe = html
-    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-    .replace(/<noscript[\s\S]*?<\/noscript>/gi, ' ');
-  const text = withoutUnsafe
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/\s+/g, ' ')
-    .trim();
+    .replace(/<script\b[\s\S]*?<\/script\s*>/gi, ' ')
+    .replace(/<style\b[\s\S]*?<\/style\s*>/gi, ' ')
+    .replace(/<noscript\b[\s\S]*?<\/noscript\s*>/gi, ' ');
+
+  const textWithoutTags = withoutUnsafe.replace(/<[^>]+>/g, ' ');
+  const text = unescapeHtmlEntities(textWithoutTags).replace(/\s+/g, ' ').trim();
 
   return { title, text };
 }
