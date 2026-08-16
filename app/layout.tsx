@@ -5,12 +5,12 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Give-A-Wonderful-Day',
   description:
-    'A production-ready nonprofit platform foundation for nominations, donations, transparency, and staff-reviewed automation.',
+    'A nonprofit platform foundation for nominations, Web3 donations, transparency, and staff-reviewed automation.',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body className="antialiased">{children}</body>
     </html>
   );

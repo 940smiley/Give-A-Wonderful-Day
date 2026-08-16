@@ -1,7 +1,21 @@
-// This is a placeholder for the DApp's main entry point.
-// You can run `npm run dev` to start the frontend after installing dependencies.
+# Frontend Status
 
-// Next steps:
-// - Implement wallet connection (e.g., MetaMask)
-// - Add donation form and contract interaction
-// - Display donation history and impact dashboard
+The public Next.js app includes the launch-facing routes, wallet connection, Web3 donation form,
+wrong-network handling, contract bytecode validation, recent on-chain donation history, and guarded
+admin route structure.
+
+Run the local app with:
+
+```bash
+npm run dev
+```
+
+Before a public release, run:
+
+```bash
+npm run check:release
+```
+
+Remaining launch work is operational rather than placeholder frontend work: deploy and verify the
+contract, set the public contract and chain environment values, configure production auth/database
+secrets, and complete legal/privacy/fundraising review.

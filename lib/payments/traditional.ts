@@ -33,7 +33,7 @@ class MockDonationProvider implements TraditionalDonationProvider {
   }
 
   async verifyWebhook(_rawBody: string, _signature: string | null): Promise<boolean> {
-    return true;
+    return false;
   }
 }
 
@@ -51,7 +51,13 @@ class ProductionDonationProvider extends MockDonationProvider {
 
   async verifyWebhook(_rawBody: string, signature: string | null): Promise<boolean> {
     const env = getServerEnv();
-    return Boolean(env.PAYMENT_WEBHOOK_SECRET && signature);
+    if (!env.PAYMENT_WEBHOOK_SECRET || !signature) {
+      return false;
+    }
+
+    throw new Error(
+      `${env.PAYMENT_PROVIDER} webhook verification is not implemented. Keep PAYMENT_PROVIDER=mock until provider-specific verification is added.`,
+    );
   }
 }
 

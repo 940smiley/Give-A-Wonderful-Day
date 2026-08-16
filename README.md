@@ -57,6 +57,7 @@ npm run contract:coverage
 npm run build
 npm run test:e2e
 npm run check
+npm run check:release
 ```
 
 ## Smart Contracts
@@ -72,7 +73,7 @@ Admin access is enforced server-side in layouts, route handlers, and server acti
 - Auth provider credentials and production user lifecycle are not configured.
 - Traditional donation checkout is scaffolded but not connected to a verified provider account.
 - Direct RPC event scanning is suitable only for a small MVP history window; use an indexer for production reporting.
-- `npm audit --audit-level=high` still reports a Hardhat 2/toolbox transitive advisory path that requires a breaking Hardhat 3 migration.
+- `npm audit --omit=dev --audit-level=high` passes; full dev audits still report low-severity Hardhat 2/toolbox transitive advisories that require Hardhat 3 or upstream patched dependencies.
 - Legal, fundraising, tax, recipient privacy, and treasury operating controls require external approval before launch.
 
 See `ARCHITECTURE.md`, `DEPLOYMENT.md`, `SECURITY.md`, `PRIVACY-DATA-HANDLING.md`, and `SMART-CONTRACT-OPERATIONS.md` for details.
