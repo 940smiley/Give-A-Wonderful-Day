@@ -32,13 +32,13 @@ function unescapeHtmlEntities(text: string): string {
 }
 
 function sanitizeHtmlToText(html: string): { title?: string; text: string } {
-  const rawTitle = html.match(/<title\b[^>]*>([\s\S]*?)<\/title\s*>/i)?.[1];
+  const rawTitle = html.match(/<title\b[^>]*>([\s\S]*?)<\/title[^>]*>/i)?.[1];
   const title = rawTitle ? unescapeHtmlEntities(rawTitle).replace(/\s+/g, ' ').trim() : undefined;
 
   const withoutUnsafe = html
-    .replace(/<script\b[\s\S]*?<\/script\s*>/gi, ' ')
-    .replace(/<style\b[\s\S]*?<\/style\s*>/gi, ' ')
-    .replace(/<noscript\b[\s\S]*?<\/noscript\s*>/gi, ' ');
+    .replace(/<script\b[\s\S]*?<\/script[^>]*>/gi, ' ')
+    .replace(/<style\b[\s\S]*?<\/style[^>]*>/gi, ' ')
+    .replace(/<noscript\b[\s\S]*?<\/noscript[^>]*>/gi, ' ');
 
   const textWithoutTags = withoutUnsafe.replace(/<[^>]+>/g, ' ');
   const text = unescapeHtmlEntities(textWithoutTags).replace(/\s+/g, ' ').trim();
