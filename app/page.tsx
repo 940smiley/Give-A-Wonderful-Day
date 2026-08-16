@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import PublicNav from './components/PublicNav';
+import SocialTelegramHub from './components/SocialTelegramHub';
 
 const demoPathways = [
   {
@@ -8,9 +9,9 @@ const demoPathways = [
     href: '/assistance',
     badge: 'Confidential Aid Portal',
     icon: '🤝',
-    description: 'Browse available micro-grants, emergency housing aid, and care packages. Calculate turnaround times, submit a confidential request, and track live status with an application ID.',
+    description: 'Browse available micro-grants, emergency housing aid, and care packages. Case-by-case priority flags for assault survivors, terminally ill patients, and suicide attempt survivors with 24/7 crisis hotlines.',
     actionText: 'Launch Assistance Demo →',
-    highlights: ['Emergency Micro-Grants ($250-$1,000)', 'Gentle Warmth Care Packages', 'Confidential SLA Tracking ID'],
+    highlights: ['Priority Flags (Assault, Palliative, Mental Health)', 'Anti-Scam Background & Proof Checks', '24/7 Crisis Hotline Directory'],
   },
   {
     title: '2. Philanthropic Funders & Donors',
@@ -149,12 +150,15 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Automated Telegram Bots & Social Channels */}
+      <SocialTelegramHub />
+
       <footer className="border-t border-slate-200 bg-slate-50 py-8 text-center text-xs text-slate-500">
         <div className="mx-auto max-w-6xl px-6 flex justify-between items-center flex-wrap gap-4">
           <p>© Give-A-Wonderful-Day · Nonprofit Software Foundation</p>
           <div className="flex gap-4 font-semibold text-slate-600">
             <Link href="/assistance">Assistance Portal</Link>
-            <Link href="/donate">Donations & Investors</Link>
+            <Link href="/donate">Donations &amp; Investors</Link>
             <Link href="/partners">Partner Network</Link>
             <Link href="/transparency">Transparency Log</Link>
           </div>

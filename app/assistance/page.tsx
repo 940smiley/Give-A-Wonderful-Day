@@ -18,21 +18,31 @@ const SERVICES: ServiceType[] = [
   {
     id: 'assault-survivor',
     title: 'Survivors of Assault & Violence Refuge',
-    category: 'Priority "Wonderful Day" Allocation',
-    priorityTier: 'Tier 1 Priority (Automatic)',
-    description: 'Immediate safe refuge, trauma-informed emergency relocation, security assistance, and a dedicated "Wonderful Day" respite package. Automatically prioritized as funds allow.',
+    category: 'Case-by-Case Priority Review',
+    priorityTier: 'Priority Flag (Immediate Review)',
+    description: 'Immediate safe refuge, trauma-informed emergency relocation, security assistance, and a dedicated "Wonderful Day" respite package. Expedited on a case-by-case basis as funds allow.',
     estimatedTurnaround: '12–24 hours (Expedited)',
-    maxGrantValue: 'Automatic Priority Aid',
+    maxGrantValue: 'Priority Flagged Aid',
     icon: '🛡️',
+  },
+  {
+    id: 'suicide-attempt-crisis',
+    title: 'Suicide Attempt Survivors & Severe Crisis Support',
+    category: 'Case-by-Case Priority Review',
+    priorityTier: 'Priority Flag (Immediate Review)',
+    description: 'Compassionate mental health respite, 24/7 companion navigation, wellness care packages, and a uplifting "Wonderful Day" joy moment for individuals recovering from suicide attempts or severe crisis.',
+    estimatedTurnaround: '12–24 hours (Expedited)',
+    maxGrantValue: 'Priority Flagged Aid',
+    icon: '💚',
   },
   {
     id: 'terminal-illness',
     title: 'Terminally Ill Patients & Palliative Care',
-    category: 'Priority "Wonderful Day" Allocation',
-    priorityTier: 'Tier 1 Priority (Automatic)',
+    category: 'Case-by-Case Priority Review',
+    priorityTier: 'Priority Flag (Immediate Review)',
     description: 'Joyful family memory creation, specialized medical respite, wish fulfillment, and comfort care packages for individuals and families facing terminal diagnoses.',
     estimatedTurnaround: '24 hours (Expedited)',
-    maxGrantValue: 'Automatic Priority Aid',
+    maxGrantValue: 'Priority Flagged Aid',
     icon: '🕊️',
   },
   {
@@ -67,6 +77,13 @@ type EmergencyAgency = {
 
 const EMERGENCY_AGENCIES: EmergencyAgency[] = [
   {
+    name: '988 Suicide & Crisis Lifeline',
+    service: '24/7 Free & Confidential Mental Health Support',
+    contact: 'Call or Text 988',
+    availability: '24/7 / 365 Days',
+    website: 'https://988lifeline.org',
+  },
+  {
     name: 'National Domestic Violence Hotline',
     service: '24/7 Confidential Refuge & Safety Planning',
     contact: '1-800-799-SAFE (7233) · Text "START" to 88788',
@@ -79,13 +96,6 @@ const EMERGENCY_AGENCIES: EmergencyAgency[] = [
     contact: '1-800-656-4673',
     availability: '24/7 Instant Response',
     website: 'https://rainn.org',
-  },
-  {
-    name: '988 Suicide & Crisis Lifeline',
-    service: 'Free Mental Health & Emotional Support',
-    contact: 'Dial 988',
-    availability: '24/7 / 365 Days',
-    website: 'https://988lifeline.org',
   },
   {
     name: 'National Shelter & Housing Directory (HUD/211)',
@@ -163,7 +173,7 @@ export default function AssistancePage() {
   function handleSubmitApplication(e: React.FormEvent) {
     e.preventDefault();
     const trackingCode = `GAWD-AST-${Math.floor(1000 + Math.random() * 9000)}`;
-    const isPriority = selectedService.id === 'assault-survivor' || selectedService.id === 'terminal-illness';
+    const isPriority = selectedService.id === 'assault-survivor' || selectedService.id === 'terminal-illness' || selectedService.id === 'suicide-attempt-crisis';
 
     const newRecord: ApplicationRecord = {
       id: `app-${Date.now()}`,
@@ -171,7 +181,7 @@ export default function AssistancePage() {
       applicantName,
       email,
       city: `${city}, ${state}`,
-      urgency: isPriority ? 'Automatic Priority "Wonderful Day" Allocation' : 'Standard (24–48h)',
+      urgency: isPriority ? 'Case-by-Case Priority Flagged (Immediate Review)' : 'Standard (24–48h)',
       status: 'Under Review & Verification',
       submittedAt: new Date().toLocaleDateString(),
       trackingCode,
@@ -213,21 +223,21 @@ export default function AssistancePage() {
   return (
     <PublicPage
       title="Apply for Assistance"
-      intro="A dignified, safe, and confidential portal. Priority automatic 'Wonderful Day' allocations are granted to assault survivors and terminally ill patients as funds allow, backed by verification safeguards and immediate 24/7 emergency agency resources."
+      intro="A dignified, safe, and confidential portal. Case-by-case priority flags and immediate review are assigned for survivors of assault, suicide attempt survivors / severe mental health crisis, and terminally ill patients, backed by verification safeguards and 24/7 emergency resources."
     >
       {/* Top Banner / Priority Notice */}
       <div className="mb-8 rounded-2xl bg-amber-50 border border-amber-200 p-5 text-amber-950 text-sm flex items-start justify-between flex-wrap gap-4">
         <div className="flex items-start gap-3">
           <span className="text-2xl mt-0.5">🕊️</span>
           <div>
-            <p className="font-bold text-base">Automatic &quot;Wonderful Day&quot; Priority Allocation:</p>
+            <p className="font-bold text-base">Case-by-Case Priority Review &amp; Expedited Allocation:</p>
             <p className="text-xs text-amber-900 mt-1">
-              Survivors of assault/domestic violence and terminally ill patients receive automatic priority allocation of &quot;A Wonderful Day&quot; experiences and emergency relief as funds allow. Strict anti-scam background checks &amp; professional verification protect all funds.
+              Survivors of assault/domestic violence, survivors of suicide attempts / severe mental health crisis, and terminally ill patients receive immediate backend priority flags for expedited review and allocation of &quot;A Wonderful Day&quot; experiences as funds allow.
             </p>
           </div>
         </div>
         <a href="#emergency-directory" className="font-bold underline text-amber-900 hover:text-amber-800 text-xs">
-          View Immediate 24/7 Emergency Agencies ↓
+          View Immediate 24/7 Crisis Hotlines ↓
         </a>
       </div>
 
@@ -246,7 +256,7 @@ export default function AssistancePage() {
             <div className="grid gap-4 sm:grid-cols-2">
               {SERVICES.map((service) => {
                 const isSelected = selectedService.id === service.id;
-                const isPriority = service.id === 'assault-survivor' || service.id === 'terminal-illness';
+                const isPriority = service.id === 'assault-survivor' || service.id === 'terminal-illness' || service.id === 'suicide-attempt-crisis';
 
                 return (
                   <button
@@ -264,7 +274,7 @@ export default function AssistancePage() {
                   >
                     {isPriority && (
                       <span className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider bg-amber-400 text-amber-950 px-2 py-0.5 rounded-full">
-                        Automatic Priority
+                        Priority Flag
                       </span>
                     )}
                     <div className="flex items-center gap-2 mb-2">
@@ -288,7 +298,7 @@ export default function AssistancePage() {
           {step < 3 && (
             <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm space-y-6">
               <div>
-                <h2 className="text-xl font-bold text-slate-900 mb-1">2. Application & Anti-Scam Verification</h2>
+                <h2 className="text-xl font-bold text-slate-900 mb-1">2. Application &amp; Anti-Scam Verification</h2>
                 <p className="text-xs text-slate-600">
                   Selected program: <strong className="text-emerald-800">{selectedService.title}</strong> ({selectedService.priorityTier})
                 </p>
@@ -371,7 +381,7 @@ export default function AssistancePage() {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700" htmlFor="description">
-                    Summary of Situation & Requested Assistance *
+                    Summary of Situation &amp; Requested Assistance *
                   </label>
                   <textarea
                     id="description"
@@ -379,7 +389,7 @@ export default function AssistancePage() {
                     rows={3}
                     value={needDescription}
                     onChange={(e) => setNeedDescription(e.target.value)}
-                    placeholder="Describe your current situation, immediate refuge/medical needs, or specific items requested..."
+                    placeholder="Describe your current situation, immediate refuge/crisis needs, or specific items requested..."
                     className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
                   />
                 </div>
@@ -388,9 +398,9 @@ export default function AssistancePage() {
                 <div className="rounded-xl bg-slate-900 text-white p-5 space-y-4 shadow-sm">
                   <div className="flex items-center justify-between border-b border-slate-800 pb-2">
                     <span className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-                      <span>🛡️</span> Verification & Scam Prevention Check
+                      <span>🛡️</span> Verification &amp; Scam Prevention Check
                     </span>
-                    <span className="text-[11px] text-slate-400">Protects donor funds & ensures direct aid to genuine victims</span>
+                    <span className="text-[11px] text-slate-400">Protects donor funds &amp; ensures direct aid to genuine victims</span>
                   </div>
 
                   <p className="text-xs text-slate-300 leading-relaxed">
@@ -525,7 +535,7 @@ export default function AssistancePage() {
           <div id="emergency-directory" className="rounded-xl border-2 border-red-200 bg-red-50/30 p-5 shadow-sm space-y-4">
             <div className="flex items-center gap-2">
               <span className="text-xl">🚨</span>
-              <h3 className="font-bold text-red-950 text-base">Immediate 24/7 Crisis & Shelter Directory</h3>
+              <h3 className="font-bold text-red-950 text-base">Immediate 24/7 Crisis &amp; Shelter Directory</h3>
             </div>
             <p className="text-xs text-slate-700 leading-relaxed">
               If you are in immediate danger or need shelter/food while your application is processed, contact these 24/7 verified resources right away:
