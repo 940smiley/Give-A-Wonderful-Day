@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-<<<<<<< HEAD
-=======
   poweredByHeader: false,
   allowedDevOrigins: ['127.0.0.1'],
   images: {
@@ -44,7 +42,6 @@ const nextConfig = {
       },
     ];
   },
->>>>>>> origin/codex/production-readiness-upgrade
 };
 
 module.exports = nextConfig;

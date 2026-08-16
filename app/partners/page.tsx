@@ -20,7 +20,6 @@ export default function PartnersPage() {
   // Referral form state
   const [partnerOrgName, setPartnerOrgName] = useState('Hope Community Center');
   const [caseManagerName, setCaseManagerName] = useState('David Miller');
-  const [caseManagerEmail, setCaseManagerEmail] = useState('d.miller@hopecommunity.org');
   const [clientInitials, setClientInitials] = useState('R.T.');
   const [clientCity, setClientCity] = useState('Oakland, CA');
   const [referralCategory, setReferralCategory] = useState('Emergency Housing Aid');

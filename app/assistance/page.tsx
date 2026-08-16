@@ -121,8 +121,6 @@ type ApplicationRecord = {
 export default function AssistancePage() {
   const [selectedService, setSelectedService] = useState<ServiceType>(SERVICES[0]!);
   const [step, setStep] = useState<number>(1);
-  const [householdSize, setHouseholdSize] = useState<number>(2);
-  const [urgency, setUrgency] = useState<string>('expedited');
 
   // Form fields
   const [applicantName, setApplicantName] = useState('');
@@ -131,12 +129,10 @@ export default function AssistancePage() {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [needDescription, setNeedDescription] = useState('');
-  const [confidential, setConfidential] = useState(true);
 
   // Verification & Background Check fields
   const [caseNumber, setCaseNumber] = useState('');
   const [advocateName, setAdvocateName] = useState('');
-  const [advocateContact, setAdvocateContact] = useState('');
   const [documentUploaded, setDocumentUploaded] = useState(false);
   const [verificationPassed, setVerificationPassed] = useState(false);
 
@@ -156,7 +152,7 @@ export default function AssistancePage() {
       city: 'Chicago, IL',
       urgency: 'Immediate Safety (12h)',
       status: 'Approved & Dispatched',
-      submittedAt: new Date(Date.now() - 86400000).toLocaleDateString(),
+      submittedAt: '2026-08-15',
       trackingCode: 'GAWD-AST-9921',
       details: 'Expedited safe refuge voucher and Wonderful Day relocation care box dispatched via advocate verification.',
       verificationMethod: 'Verified by Shelter Advocate (ID #7819)',
@@ -209,7 +205,7 @@ export default function AssistancePage() {
     if (found) {
       setSearchedApp(found);
     } else {
-      setSearchError(`No demo record found for tracking code "${code}". Try GAWD-AST-9921.`);
+      setSearchError(`No demo record found for tracking code &quot;${code}&quot;. Try GAWD-AST-9921.`);
       setSearchedApp(null);
     }
   }
@@ -224,9 +220,9 @@ export default function AssistancePage() {
         <div className="flex items-start gap-3">
           <span className="text-2xl mt-0.5">🕊️</span>
           <div>
-            <p className="font-bold text-base">Automatic "Wonderful Day" Priority Allocation:</p>
+            <p className="font-bold text-base">Automatic &quot;Wonderful Day&quot; Priority Allocation:</p>
             <p className="text-xs text-amber-900 mt-1">
-              Survivors of assault/domestic violence and terminally ill patients receive automatic priority allocation of "A Wonderful Day" experiences and emergency relief as funds allow. Strict anti-scam background checks & professional verification protect all funds.
+              Survivors of assault/domestic violence and terminally ill patients receive automatic priority allocation of &quot;A Wonderful Day&quot; experiences and emergency relief as funds allow. Strict anti-scam background checks &amp; professional verification protect all funds.
             </p>
           </div>
         </div>

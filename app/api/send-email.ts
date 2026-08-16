@@ -4,5 +4,5 @@ import { NextApiRequest, NextApiResponse } from 'next';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { to, subject, body } = req.body;
   // Simulate sending email
-  res.status(200).json({ status: 'sent', to, subject });
+  res.status(200).json({ status: 'sent', to, subject, bodyLength: typeof body === 'string' ? body.length : 0 });
 }
