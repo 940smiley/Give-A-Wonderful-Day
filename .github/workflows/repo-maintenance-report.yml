@@ -1,0 +1,46 @@
+name: Repository Maintenance
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "15 9 * * 1"
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate repository summary
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+
+            const pulls = await github.paginate(github.rest.pulls.list, {
+              owner,
+              repo,
+              state: "open",
+              per_page: 100,
+            });
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: "open",
+              per_page: 100,
+            });
+
+            const issueOnly = issues.filter(issue => !issue.pull_request);
+
+            core.summary
+              .addHeading("Repository Maintenance")
+              .addRaw(`Open PRs: ${pulls.length}\n`)
+              .addRaw(`Open Issues: ${issueOnly.length}\n`)
+              .addRaw(`Generated: ${new Date().toISOString()}`)
+              .write();
