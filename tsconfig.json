@@ -37,6 +37,7 @@
     "coverage",
     "typechain-types",
     "playwright-report",
-    "test-results"
+    "test-results",
+    "mobile"
   ]
 }

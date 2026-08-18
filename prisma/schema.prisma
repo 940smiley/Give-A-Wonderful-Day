@@ -22,6 +22,39 @@ enum RoleName {
 enum NominationType {
   STANDARD
   HOTLINE_GRANT
+  BIRTHDAY
+}
+
+enum ProgramType {
+  GENERAL_WONDERFUL_DAY
+  WONDERFUL_BIRTHDAY
+  VETERAN_OUTREACH
+  FOSTER_YOUTH
+}
+
+enum ApplicationTier {
+  PRIORITY_EMERGENCY
+  STANDARD_OPPORTUNITY
+}
+
+enum BirthdayExperienceTier {
+  WONDERFUL
+  EXTRAORDINARY
+  DREAM
+}
+
+enum BirthdayApplicationStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  ELIGIBILITY_VERIFIED
+  SELECTED
+  EXPERIENCE_PLANNING
+  FUNDING
+  SCHEDULED
+  DELIVERED
+  COMPLETED
+  DECLINED
+  WITHDRAWN
 }
 
 enum NominationStatus {
@@ -126,6 +159,7 @@ model User {
   auditLogs       AuditLog[]
   nominationsMade Nomination[] @relation("NominationReviewer")
   chatEscalations ChatEscalation[]
+  birthdayApps    BirthdayApplication[] @relation("BirthdayReviewer")
 
   @@index([roleId])
   @@index([deletedAt])
@@ -233,10 +267,26 @@ model Consent {
   @@index([recipientId, status])
 }
 
+model Program {
+  id          String      @id @default(uuid())
+  type        ProgramType @unique
+  name        String
+  description String?     @db.Text
+  active      Boolean     @default(true)
+  wonderfulDays WonderfulDay[]
+  birthdayApps BirthdayApplication[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([type])
+}
+
 model WonderfulDay {
   id          String             @id @default(uuid())
   recipientId String
   recipient   Recipient          @relation(fields: [recipientId], references: [id])
+  programId   String?
+  program     Program?           @relation(fields: [programId], references: [id])
   status      WonderfulDayStatus @default(DRAFT)
   title       String
   description String?            @db.Text
@@ -244,11 +294,13 @@ model WonderfulDay {
   eventPlans  EventPlan[]
   expenses    Expense[]
   reports     ImpactReport[]
+  birthdayApps BirthdayApplication[]
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
   deletedAt   DateTime?
 
   @@index([recipientId, status])
+  @@index([programId])
   @@index([deletedAt])
 }
 
@@ -498,4 +550,95 @@ model ChatEscalation {
   resolvedAt    DateTime?
   
   @@index([agentId])
+}
+
+/// Birthday application for the Wonderful Birthday Project.
+/// Stores only non-sensitive aggregate information on-chain or in public-facing queries.
+/// PII and medical details remain in the private application record.
+model BirthdayApplication {
+  id                String                  @id @default(uuid())
+  programId         String
+  program           Program                 @relation(fields: [programId], references: [id])
+  status            BirthdayApplicationStatus @default(SUBMITTED)
+  tier              ApplicationTier
+
+  /// PII: child's first name or pseudonym used by staff only.
+  childName         String
+  /// Child's approximate age range (e.g., "5-8", "9-12") — not exact DOB.
+  ageRange          String
+  /// PII: child's city and state.
+  city              String
+  state             String
+
+  /// General medical context category (e.g., "life-limiting", "terminal", "critical").
+  /// Does NOT store diagnosis details, medical records, or specific conditions.
+  medicalContext    String
+
+  /// PII: guardian/parent name for authorization.
+  guardianName      String
+  /// PII: guardian email for contact.
+  guardianEmail     String
+  /// PII: guardian phone for contact.
+  guardianPhone     String?
+
+  /// Family size for experience planning (non-PII aggregate).
+  familySize        Int                     @default(4)
+  /// Accessibility requirements (general, non-identifying).
+  accessibilityNotes String?                @db.Text
+  /// Child's interests and preferences for experience design.
+  interests         String?                 @db.Text
+  /// Any special considerations for planning (non-medical).
+  specialNotes      String?                 @db.Text
+
+  /// Experience tier assigned during planning.
+  experienceTier    BirthdayExperienceTier?
+  /// Brief justification for tier assignment (internal staff note).
+  tierJustification String?                 @db.Text
+
+  /// Verification status for eligibility documentation.
+  /// This is an operational/legal requirement, not a medical verification in code.
+  verificationStatus String                  @default("PENDING")
+  /// Staff member who reviewed the application.
+  reviewedById      String?
+  reviewedBy        User?                   @relation("BirthdayReviewer", fields: [reviewedById], references: [id])
+  reviewedAt        DateTime?
+
+  /// Link to the resulting WonderfulDay if approved and scheduled.
+  wonderfulDayId    String?
+  wonderfulDay      WonderfulDay?           @relation(fields: [wonderfulDayId], references: [id])
+
+  createdAt         DateTime                @default(now())
+  updatedAt         DateTime                @updatedAt
+  deletedAt         DateTime?
+
+  @@index([programId, status])
+  @@index([tier])
+  @@index([status, createdAt])
+  @@index([reviewedById])
+  @@index([deletedAt])
+}
+
+/// Configurable experience package for the Wonderful Birthday Project.
+/// Defines what components are available at each experience tier.
+/// Staff can customize per-application; this defines the default configuration.
+model ExperiencePackage {
+  id                String               @id @default(uuid())
+  tier              BirthdayExperienceTier @unique
+  name              String
+  description       String?              @db.Text
+
+  /// JSON configuration of included components.
+  /// Components: celebration, familyExperience, travel, lodging, transportation,
+  /// meals, entertainment, gifts, specialActivities, photography, videoMemoryPreservation,
+  /// accessibilityAccommodations, familySupport
+  components        Json                 @default("{}")
+
+  /// Estimated cost range in cents (lower bound).
+  estimatedCostMinCents Int              @default(0)
+  /// Estimated cost range in cents (upper bound).
+  estimatedCostMaxCents Int              @default(0)
+
+  active            Boolean              @default(true)
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
 }

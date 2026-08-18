@@ -25,6 +25,10 @@ pnpm-debug.log*
 .env.local
 .env.*.local
 
+# Verification files
+verification/
+verify_demos.py
+
 # Test output
 playwright-report/
 test-results/

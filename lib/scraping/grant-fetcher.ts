@@ -10,25 +10,38 @@ export type GrantPageResult = {
   contentType: string;
 };
 
+function unescapeHtmlEntities(text: string): string {
+  return text.replace(/&(nbsp|amp|lt|gt|quot|#39);/gi, (match, entity: string) => {
+    switch (entity.toLowerCase()) {
+      case 'nbsp':
+        return ' ';
+      case 'lt':
+        return '<';
+      case 'gt':
+        return '>';
+      case 'quot':
+        return '"';
+      case '#39':
+        return "'";
+      case 'amp':
+        return '&';
+      default:
+        return match;
+    }
+  });
+}
+
 function sanitizeHtmlToText(html: string): { title?: string; text: string } {
-  const title = html
-    .match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]
-    ?.replace(/\s+/g, ' ')
-    .trim();
+  const rawTitle = html.match(/<title\b[^>]*>([\s\S]*?)<\/title[^>]*>/i)?.[1];
+  const title = rawTitle ? unescapeHtmlEntities(rawTitle).replace(/\s+/g, ' ').trim() : undefined;
+
   const withoutUnsafe = html
-    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-    .replace(/<noscript[\s\S]*?<\/noscript>/gi, ' ');
-  const text = withoutUnsafe
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&amp;/g, '&')
-    .replace(/\s+/g, ' ')
-    .trim();
+    .replace(/<script\b[\s\S]*?<\/script[^>]*>/gi, ' ')
+    .replace(/<style\b[\s\S]*?<\/style[^>]*>/gi, ' ')
+    .replace(/<noscript\b[\s\S]*?<\/noscript[^>]*>/gi, ' ');
+
+  const textWithoutTags = withoutUnsafe.replace(/<[^>]+>/g, ' ');
+  const text = unescapeHtmlEntities(textWithoutTags).replace(/\s+/g, ' ').trim();
 
   return { title, text };
 }
@@ -100,14 +113,14 @@ export async function fetchGrantPage(rawUrl: string): Promise<GrantPageResult> {
       }
 
       const body = await readLimitedBody(response, 1_000_000);
-      // Parse HTML once and destructure both title and text to avoid a second full parse.
-      const { title, text } = sanitizeHtmlToText(body);
+      const sanitized = sanitizeHtmlToText(body).text.slice(0, 20_000);
+      const title = sanitizeHtmlToText(body).title;
 
       return {
         url: redactUrlForLog(rawUrl),
         finalUrl: redactUrlForLog(current.toString()),
         title,
-        text: text.slice(0, 20_000),
+        text: sanitized,
         contentType,
       };
     }

@@ -1,13 +1,13 @@
 import PublicPage from '../components/PublicPage';
-import DonationWidget from '../components/donations/DonationWidget';
+import InvestorDonationDemo from '../components/donations/InvestorDonationDemo';
 
 export default function DonatePage() {
   return (
     <PublicPage
-      title="Donate"
-      intro="Crypto donations are supported through the existing Web3 path. A traditional donation provider abstraction is scaffolded for future one-time and recurring giving."
+      title="Invest & Donate"
+      intro="A comprehensive funding and strategic giving platform for philanthropic funders, impact investors, and individual donors. Calculate community impact, execute card/ACH or Web3 crypto contributions, and track transparent capital allocation."
     >
-      <DonationWidget />
+      <InvestorDonationDemo />
     </PublicPage>
   );
 }

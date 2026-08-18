@@ -20,5 +20,5 @@ Report suspected vulnerabilities privately to the repository owner. Do not open 
 
 - Replace in-memory rate limiting with shared infrastructure for production.
 - Complete MFA-capable identity provider setup.
-- Complete full-dev-audit remediation by moving to Hardhat 3 or waiting for patched Hardhat 2-compatible dependencies.
+- Complete Hardhat 3 audit remediation or wait for patched Hardhat 2-compatible dependencies.
 - Add production monitoring, alerting, WAF rules, and secret scanning at the GitHub organization level.
