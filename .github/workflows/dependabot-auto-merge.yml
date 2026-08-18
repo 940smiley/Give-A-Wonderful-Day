@@ -1,24 +1,42 @@
-name: Auto-merge Dependabot PRs
+name: Dependabot
 
 on:
-  pull_request:
-    types: [opened, synchronize, labeled]
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
 
 permissions:
-  pull-requests: write
   contents: write
+  pull-requests: write
 
 jobs:
-  automerge:
-    if: contains(github.event.pull_request.labels.*.name, 'automerge')
+  merge:
+    if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/github-script@v7
+      - name: Get update metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v3
         with:
-          script: |
-            github.rest.pulls.merge({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number,
-              merge_method: "squash"
-            })
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto-merge minor and patch updates
+        if: |
+          steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+          steps.metadata.outputs.update-type == 'version-update:semver-minor'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge "$PR_URL" --auto --squash
+
+      - name: Flag major updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-major'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh pr edit "$PR_URL" --add-label "major-update"

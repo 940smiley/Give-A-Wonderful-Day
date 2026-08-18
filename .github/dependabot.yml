@@ -1,20 +1,40 @@
 version: 2
+
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: monday
     open-pull-requests-limit: 10
-    labels:
-      - "dependencies"
-      - "security"
-    commit-message:
-      prefix: "chore(deps)"
-    ignore:
-      - dependency-name: "next"
-        versions: [">14.2.30"]
     groups:
-      nextjs-and-react:
+      weekly-dependencies:
         patterns:
-          - "react"
-          - "react-dom"
+          - "*"
+        update-types:
+          - minor
+          - patch
+    labels:
+      - dependencies
+      - automated
+    commit-message:
+      prefix: deps
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    groups:
+      weekly-actions:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+    labels:
+      - dependencies
+      - automated
+    commit-message:
+      prefix: ci

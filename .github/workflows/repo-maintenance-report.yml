@@ -1,70 +1,46 @@
-name: Repository Maintenance Report
+name: Repository Maintenance
 
 on:
   workflow_dispatch:
+
   schedule:
-    - cron: "15 */6 * * *"
+    - cron: "15 9 * * 1"
 
 permissions:
   contents: read
-  issues: write
-  pull-requests: write
+  issues: read
+  pull-requests: read
 
 jobs:
   report:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Generate open PR/issue report and apply basic labels
-        uses: actions/github-script@v7
+      - name: Generate repository summary
+        uses: actions/github-script@v9
         with:
           script: |
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
+            const { owner, repo } = context.repo;
 
             const pulls = await github.paginate(github.rest.pulls.list, {
               owner,
               repo,
-              state: 'open',
+              state: "open",
               per_page: 100,
             });
 
             const issues = await github.paginate(github.rest.issues.listForRepo, {
               owner,
               repo,
-              state: 'open',
+              state: "open",
               per_page: 100,
             });
 
-            for (const pr of pulls) {
-              const labels = (pr.labels || []).map(l => l.name);
-              if (/dependabot/i.test(pr.user?.login || '') && !labels.includes('dependencies')) {
-                await github.rest.issues.addLabels({
-                  owner,
-                  repo,
-                  issue_number: pr.number,
-                  labels: ['dependencies'],
-                });
-              }
-            }
+            const issueOnly = issues.filter(issue => !issue.pull_request);
 
-            const issueOnly = issues.filter(i => !i.pull_request);
-            const body = [
-              '## Automated Maintenance Snapshot',
-              `- Open PRs: ${pulls.length}`,
-              `- Open Issues: ${issueOnly.length}`,
-              `- Generated: ${new Date().toISOString()}`,
-              '',
-              '### Open PRs',
-              ...pulls.slice(0, 20).map(pr => `- #${pr.number} ${pr.title}`),
-              '',
-              '### Open Issues',
-              ...issueOnly.slice(0, 20).map(i => `- #${i.number} ${i.title}`),
-            ].join('\n');
-
-            const title = `Maintenance snapshot (${new Date().toISOString().slice(0, 10)})`;
-            await github.rest.issues.create({
-              owner,
-              repo,
-              title,
-              body,
-            });
+            core.summary
+              .addHeading("Repository Maintenance")
+              .addRaw(`Open PRs: ${pulls.length}\n`)
+              .addRaw(`Open Issues: ${issueOnly.length}\n`)
+              .addRaw(`Generated: ${new Date().toISOString()}`)
+              .write();
