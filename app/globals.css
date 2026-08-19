@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 html { scroll-behavior: smooth; }
 body { background: #fff9ef; color: #1f2a33; }
 * { box-sizing: border-box; }
-=======
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -28,4 +26,3 @@ textarea,
 select {
   outline-color: #047857;
 }
->>>>>>> origin/codex/production-readiness-upgrade

@@ -1,16 +1,5 @@
 {
   "compilerOptions": {
-<<<<<<< HEAD
-    "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-=======
     "target": "ES2022",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": false,
@@ -18,7 +7,6 @@
     "strict": true,
     "useUnknownInCatchVariables": true,
     "noUncheckedIndexedAccess": true,
->>>>>>> origin/codex/production-readiness-upgrade
     "noEmit": true,
     "incremental": true,
     "module": "esnext",
@@ -35,30 +23,21 @@
   },
   "include": [
     "next-env.d.ts",
-<<<<<<< HEAD
-    ".next/types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx",
-=======
     "**/*.ts",
     "**/*.tsx",
     "types/**/*.d.ts",
     ".next/types/**/*.ts",
->>>>>>> origin/codex/production-readiness-upgrade
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
-<<<<<<< HEAD
-    "mobile"
-=======
     ".next",
     "artifacts",
     "cache",
     "coverage",
     "typechain-types",
     "playwright-report",
-    "test-results"
->>>>>>> origin/codex/production-readiness-upgrade
+    "test-results",
+    "mobile"
   ]
 }

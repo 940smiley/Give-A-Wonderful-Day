@@ -16,7 +16,12 @@ async function main() {
   const donation = await Donation.deploy(treasury);
   await donation.waitForDeployment();
 
+  const GAWDCharacter = await ethers.getContractFactory('GAWDCharacter');
+  const gawdCharacter = await GAWDCharacter.deploy();
+  await gawdCharacter.waitForDeployment();
+
   console.log(`NonprofitDonation deployed to ${await donation.getAddress()}`);
+  console.log(`GAWDCharacter deployed to ${await gawdCharacter.getAddress()}`);
 }
 
 main().catch((error) => {

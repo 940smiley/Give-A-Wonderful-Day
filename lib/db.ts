@@ -1,13 +1,16 @@
 import { PrismaClient } from '@prisma/client';
 
-let prisma: PrismaClient | undefined;
+// Attach to globalThis in development so Next.js hot reload does not create
+// multiple PrismaClient instances that exhaust the connection pool.
+// In production modules are only evaluated once, so this is a no-op there.
+const globalForPrisma = globalThis as unknown as { _prisma?: PrismaClient };
 
 export function getPrisma(): PrismaClient {
-  if (!prisma) {
-    prisma = new PrismaClient({
+  if (!globalForPrisma._prisma) {
+    globalForPrisma._prisma = new PrismaClient({
       log: process.env.NODE_ENV === 'development' ? ['warn', 'error'] : ['error'],
     });
   }
 
-  return prisma;
+  return globalForPrisma._prisma;
 }

@@ -1,9 +1,0 @@
-{
-  "name": "Give-A-Wonderful-Day",
-  "version": "1.0.0",
-  "description": "Qwen settings for Give-A-Wonderful-Day project",
-  "preferences": {
-    "language": "en",
-    "autoSave": true
-  }
-}

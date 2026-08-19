@@ -19,6 +19,13 @@ test('automation API denies unauthenticated access', async ({ request }) => {
   expect(response.status()).toBe(401);
 });
 
+test('mock payment webhook is disabled publicly', async ({ request }) => {
+  const response = await request.post('/api/payments/webhook', {
+    data: { id: 'evt_test' },
+  });
+  expect(response.status()).toBe(503);
+});
+
 test('nomination form validates required content', async ({ page }) => {
   await page.goto('/nominate');
   await page.getByRole('button', { name: 'Submit nomination' }).click();

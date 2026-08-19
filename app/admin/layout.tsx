@@ -4,6 +4,7 @@ import { requirePagePermission } from '../../lib/auth/session';
 
 const adminLinks = [
   ['Overview', '/admin'],
+  ['Birthday Apps', '/admin/birthday-applications'],
   ['Nominations', '/admin/nominations'],
   ['Recipients', '/admin/recipients'],
   ['Donations', '/admin/donations'],

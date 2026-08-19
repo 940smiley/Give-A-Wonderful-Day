@@ -6,9 +6,5 @@
     "language": "en",
     "autoSave": true
   },
-  "$version": 3
-<<<<<<< HEAD
+  "$version": 4
 }
-=======
-}
->>>>>>> origin/codex/production-readiness-upgrade

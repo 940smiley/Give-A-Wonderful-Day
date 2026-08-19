@@ -15,10 +15,20 @@
 
 - `npm ci`
 - `npm run check`
-- `npm audit --audit-level=high`
+- `npm run check:release`
+- `npm audit --omit=dev --audit-level=high`
 - `npm run db:deploy`
 - `/api/health`
 - `/api/health?deep=true` after `DATABASE_URL` is configured
+
+## Public Web3 Launch Checklist
+
+- Deploy `NonprofitDonation` to the target testnet or approved production network.
+- Verify the contract on the configured block explorer.
+- Transfer ownership to the approved Safe multisig and confirm `acceptOwnership`.
+- Set `NEXT_PUBLIC_NONPROFIT_CONTRACT_ADDRESS`, `NEXT_PUBLIC_EXPECTED_CHAIN_ID`, `NEXT_PUBLIC_BLOCK_EXPLORER_URL`, `RPC_URL`, `EXPECTED_CHAIN_ID`, and `TREASURY_ADDRESS` in the hosting environment.
+- Keep `PAYMENT_PROVIDER=mock` unless a verified traditional donation provider and real webhook verification are implemented.
+- Keep `ENABLE_ADMIN_AUTOMATION=false` until admin identity, audit logging, provider allowlists, and human approval workflow are production reviewed.
 
 ## Required Production Secrets
 
