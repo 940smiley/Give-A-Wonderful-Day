@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts\NonprofitDonation.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> NonprofitDonation.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">86.36% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>19/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">78.57% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>22/28</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">88.89% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>8/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">87.5% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>21/24</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+&nbsp;
+import {Ownable2Step, Ownable} from "@openzeppelin/contracts/access/Ownable2Step.sol";
+import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
+import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+&nbsp;
+/// @title Nonprofit Donation Smart Contract
+/// @notice Records transparent donations and lets a Safe multisig owner withdraw to a nonprofit treasury.
+/// @dev Production ownership should be transferred to a Safe multisig, not an individual wallet.
+contract NonprofitDonation is Ownable2Step, Pausable, ReentrancyGuard {
+    address public nonprofitWallet;
+&nbsp;
+    event DonationReceived(address indexed donor, uint256 amount, string message, uint256 timestamp);
+    event Withdrawal(address indexed to, uint256 amount, uint256 timestamp);
+    event NonprofitWalletUpdated(address indexed previousWallet, address indexed newWallet, uint256 timestamp);
+&nbsp;
+    constructor(address initialNonprofitWallet) Ownable(msg.sender) {
+        if (initialNonprofitWallet == address(0)) {
+            revert("Invalid wallet");
+        }
+&nbsp;
+        nonprofitWallet = initialNonprofitWallet;
+    }
+&nbsp;
+    /// @notice Donate ETH to the nonprofit. All donations are logged.
+    /// @param message Optional donor message.
+    function donate(string calldata message) external payable whenNotPaused {
+        if (msg.value == 0) {
+            revert("Donation must be greater than zero");
+        }
+&nbsp;
+        emit DonationReceived(msg.sender, msg.value, message, block.timestamp);
+    }
+&nbsp;
+    /// @notice Withdraw the entire contract balance to the nonprofit treasury.
+    function withdrawAll() external onlyOwner nonReentrant {
+        _withdraw(address(this).balance);
+    }
+&nbsp;
+    /// @notice Withdraw part of the contract balance to the nonprofit treasury.
+    /// @param amount Amount of wei to withdraw.
+    function withdraw(uint256 amount) external <span class="missing-if-branch" title="else path not taken" >E</span>onlyOwner <span class="missing-if-branch" title="else path not taken" >E</span>nonReentrant {
+        _withdraw(amount);
+    }
+&nbsp;
+    /// @notice Pause donations during an incident or maintenance window.
+    function pause() external onlyOwner {
+        _pause();
+    }
+&nbsp;
+    /// @notice Resume donations after pause.
+    function unpause() external <span class="missing-if-branch" title="else path not taken" >E</span>onlyOwner {
+        _unpause();
+    }
+&nbsp;
+    /// @notice Change the nonprofit receiving wallet.
+    /// @dev Consider using a timelock or governance delay before production treasury changes.
+    /// @param newWallet The new treasury wallet address.
+    function setNonprofitWallet(address newWallet) external <span class="missing-if-branch" title="else path not taken" >E</span>onlyOwner {
+        if (newWallet == address(0)) {
+            revert("Invalid address");
+        }
+&nbsp;
+        address previousWallet = nonprofitWallet;
+        nonprofitWallet = newWallet;
+&nbsp;
+        emit NonprofitWalletUpdated(previousWallet, newWallet, block.timestamp);
+    }
+&nbsp;
+    /// @notice Get the contract ETH balance.
+<span class="fstat-no" title="function not covered" >    function getBalance() external view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return address(this).balance;</span>
+    }
+&nbsp;
+    function _withdraw(uint256 amount) internal {
+        if (amount == 0) {
+            revert("No funds to withdraw");
+        }
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (amount &gt; address(this).balance) {
+<span class="cstat-no" title="statement not covered" >            revert("Insufficient balance")</span>;
+        }
+&nbsp;
+        (bool sent, ) = nonprofitWallet.call{value: amount}("");
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!sent) {
+<span class="cstat-no" title="statement not covered" >            revert("Withdrawal failed")</span>;
+        }
+&nbsp;
+        emit Withdrawal(nonprofitWallet, amount, block.timestamp);
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jul 10 2026 00:45:12 GMT-0500 (Central Daylight Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
