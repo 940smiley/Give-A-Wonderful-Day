@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: "15 9 * * 1"
+    - cron: "15 */6 * * *"
 
 permissions:
   contents: read
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Generate repository summary
+      - name: Generate open PR/issue report and apply basic labels
         uses: actions/github-script@v9
         with:
           script: |

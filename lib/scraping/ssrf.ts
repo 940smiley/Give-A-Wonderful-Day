@@ -1,45 +1,93 @@
-// lib/scraping/ssrf.ts
+import { lookup } from 'node:dns/promises';
+import ipaddr from 'ipaddr.js';
+import { getAllowedGrantDomains } from '../env';
 
-/**
- * Validates a URL to ensure it's safe to fetch (SSRF protection)
- */
-export async function validateFetchTarget(url: string): Promise<URL> {
-  const parsedUrl = new URL(url);
-  
-  // Prevent fetching from private IP ranges and localhost
-  const hostname = parsedUrl.hostname;
-  
-  if (
-    hostname === 'localhost' ||
-    hostname === '127.0.0.1' ||
-    hostname.startsWith('192.168.') ||
-    hostname.startsWith('10.') ||
-    hostname.startsWith('172.') ||
-    hostname === '[::1]'
-  ) {
-    throw new Error('Cannot fetch from private IP address');
-  }
-  
-  // Only allow http and https
-  if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
-    throw new Error('Only http and https protocols are allowed');
-  }
-  
-  return parsedUrl;
+const blockedHostnames = new Set(['localhost', 'metadata.google.internal']);
+const metadataIps = new Set(['169.254.169.254', '100.100.100.200']);
+
+export function redactUrlForLog(rawUrl: string): string {
+  const url = new URL(rawUrl);
+  url.username = '';
+  url.password = '';
+  url.search = '';
+  url.hash = '';
+  return url.toString();
 }
 
-/**
- * Redacts sensitive information from URLs for logging
- */
-export function redactUrlForLog(url: string): string {
-  try {
-    const parsed = new URL(url);
-    // Remove password if present
-    if (parsed.password) {
-      parsed.password = '***';
-    }
-    return parsed.toString();
-  } catch {
-    return '[invalid-url]';
+export function parseHttpUrl(rawUrl: string): URL {
+  const url = new URL(rawUrl);
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+    throw new Error('Only HTTP and HTTPS URLs are supported.');
   }
+
+  if (url.username || url.password) {
+    throw new Error('URLs with embedded credentials are not supported.');
+  }
+
+  return url;
+}
+
+export function isBlockedHostname(hostname: string): boolean {
+  const normalized = hostname.toLowerCase().replace(/\.$/, '');
+  return blockedHostnames.has(normalized) || normalized.endsWith('.localhost');
+}
+
+export function isBlockedIp(address: string): boolean {
+  if (metadataIps.has(address)) {
+    return true;
+  }
+
+  if (!ipaddr.isValid(address)) {
+    return false;
+  }
+
+  const parsed = ipaddr.parse(address);
+  const range = parsed.range();
+  return [
+    'unspecified',
+    'broadcast',
+    'multicast',
+    'linkLocal',
+    'loopback',
+    'private',
+    'uniqueLocal',
+    'carrierGradeNat',
+  ].includes(range);
+}
+
+export function isAllowedByDomainAllowlist(
+  hostname: string,
+  allowlist = getAllowedGrantDomains(),
+): boolean {
+  if (allowlist.length === 0) {
+    return true;
+  }
+
+  const normalized = hostname.toLowerCase();
+  return allowlist.some((domain) => normalized === domain || normalized.endsWith(`.${domain}`));
+}
+
+export async function validateFetchTarget(rawUrl: string): Promise<URL> {
+  const url = parseHttpUrl(rawUrl);
+
+  if (isBlockedHostname(url.hostname)) {
+    throw new Error('The requested host is blocked.');
+  }
+
+  if (!isAllowedByDomainAllowlist(url.hostname)) {
+    throw new Error('The requested domain is not in the configured allowlist.');
+  }
+
+  const addresses = await lookup(url.hostname, { all: true, verbatim: false });
+  if (addresses.length === 0) {
+    throw new Error('The requested host could not be resolved.');
+  }
+
+  for (const address of addresses) {
+    if (isBlockedIp(address.address)) {
+      throw new Error('The requested host resolves to a blocked network.');
+    }
+  }
+
+  return url;
 }

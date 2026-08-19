@@ -1,12 +1,22 @@
 # AI Automation Integration Plan
 
 ## Overview
+<<<<<<< HEAD
 This document outlines the plan to integrate AI automation into the Give-A-Wonderful-Day platform, focusing on:
+=======
+
+This document outlines the plan to integrate AI automation into the Give-A-Wonderful-Day platform, focusing on:
+
+>>>>>>> origin/codex/production-readiness-upgrade
 - Grant application automation
 - Donor engagement
 - Impact reporting
 
 ## Steps
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/codex/production-readiness-upgrade
 1. **Grant Application Automation**
    - Use AI to scrape, summarize, and auto-fill grant applications.
    - Integrate with web3 to submit on-chain proof of applications.
@@ -20,6 +30,10 @@ This document outlines the plan to integrate AI automation into the Give-A-Wonde
    - Auto-generate reports for donors and the public.
 
 ## Next Actions
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/codex/production-readiness-upgrade
 - Select AI frameworks (best free/open-source options):
   - **Grant Application Automation**: Use [LangChain.js](https://js.langchain.com/) with [HuggingFace Inference API](https://huggingface.co/inference-api) (free tier) or [OpenRouter](https://openrouter.ai/) for free/low-cost LLMs. For local inference, use [llama.cpp](https://github.com/ggerganov/llama.cpp) or [Ollama](https://ollama.com/) with open models (e.g., Mistral, Llama 2).
   - **Donor Engagement Bots**: Use [LangChain.js] for prompt orchestration and [HuggingFace Transformers](https://huggingface.co/docs/transformers/index) for local or free-tier text generation. For email, use [Nodemailer](https://nodemailer.com/) (free, local SMTP).

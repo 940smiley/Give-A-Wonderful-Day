@@ -1,3 +1,31 @@
+<<<<<<< HEAD
 html { scroll-behavior: smooth; }
 body { background: #fff9ef; color: #1f2a33; }
 * { box-sizing: border-box; }
+=======
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+a,
+button,
+input,
+textarea,
+select {
+  outline-color: #047857;
+}
+>>>>>>> origin/codex/production-readiness-upgrade

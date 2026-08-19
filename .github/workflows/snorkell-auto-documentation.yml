@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Generate documentation
+      - name: Penify DocGen Client
         uses: Penify-dev/penifydocwf@v1.0.0
         with:
           client_id: ${{ secrets.SNORKELL_CLIENT_ID }}

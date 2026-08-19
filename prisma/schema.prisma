@@ -1,0 +1,446 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleName {
+  SUPER_ADMIN
+  EXECUTIVE_DIRECTOR
+  CASE_MANAGER
+  EVENT_COORDINATOR
+  FINANCE
+  VOLUNTEER
+  CONTENT_EDITOR
+  AUDITOR
+}
+
+enum NominationStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  RECIPIENT_CREATED
+}
+
+enum ConsentStatus {
+  PENDING
+  GRANTED
+  DECLINED
+  REVOKED
+}
+
+enum WonderfulDayStatus {
+  DRAFT
+  PLANNING
+  APPROVED
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+enum ExpenseStatus {
+  PROJECTED
+  APPROVED
+  PAID
+  REJECTED
+}
+
+enum DonationProvider {
+  BLOCKCHAIN
+  STRIPE
+  PAYPAL
+  MANUAL
+}
+
+enum DonationStatus {
+  PENDING
+  CONFIRMED
+  FAILED
+  REFUNDED
+}
+
+enum CommunicationStatus {
+  DRAFT
+  APPROVED
+  SENT
+  FAILED
+}
+
+enum GrantStatus {
+  IDENTIFIED
+  REVIEWING
+  DRAFTING
+  SUBMITTED
+  AWARDED
+  DECLINED
+}
+
+enum ImpactReportStatus {
+  DRAFT
+  IN_REVIEW
+  APPROVED
+  PUBLISHED
+}
+
+enum DocumentVisibility {
+  INTERNAL
+  PUBLIC
+  RESTRICTED
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        RoleName @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  users       User[]
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  /// PII: staff email address used for audit attribution and login.
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  roleId        String?
+  role          Role?     @relation(fields: [roleId], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  accounts        Account[]
+  sessions        Session[]
+  auditLogs       AuditLog[]
+  nominationsMade Nomination[] @relation("NominationReviewer")
+
+  @@index([roleId])
+  @@index([deletedAt])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Nomination {
+  id                  String           @id @default(uuid())
+  status              NominationStatus @default(SUBMITTED)
+  /// PII: nominee name supplied by a public nominator.
+  nomineeName         String
+  /// PII: nominee email supplied by a public nominator.
+  nomineeEmail        String?
+  /// PII: nominee phone supplied by a public nominator.
+  nomineePhone        String?
+  city                String
+  state               String
+  reason              String           @db.Text
+  requestedExperience String?          @db.Text
+  /// PII: public nominator name.
+  nominatorName       String
+  /// PII: public nominator email.
+  nominatorEmail      String
+  reviewedById        String?
+  reviewedBy          User?            @relation("NominationReviewer", fields: [reviewedById], references: [id])
+  reviewedAt          DateTime?
+  recipient           Recipient?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  deletedAt           DateTime?
+
+  @@index([status, createdAt])
+  @@index([reviewedById])
+  @@index([deletedAt])
+}
+
+model Recipient {
+  id             String         @id @default(uuid())
+  nominationId   String?        @unique
+  nomination     Nomination?     @relation(fields: [nominationId], references: [id])
+  /// PII: legal or preferred recipient name.
+  displayName    String
+  /// PII: minimal contact channel used by authorized staff only.
+  contactEmail   String?
+  privacyAlias   String?
+  notes          String?        @db.Text
+  consents       Consent[]
+  wonderfulDays  WonderfulDay[]
+  communications Communication[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  deletedAt      DateTime?
+
+  @@index([deletedAt])
+}
+
+model Consent {
+  id          String        @id @default(uuid())
+  recipientId String
+  recipient   Recipient     @relation(fields: [recipientId], references: [id])
+  status      ConsentStatus @default(PENDING)
+  scope       String
+  notes       String?       @db.Text
+  grantedAt   DateTime?
+  expiresAt   DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([recipientId, status])
+}
+
+model WonderfulDay {
+  id          String             @id @default(uuid())
+  recipientId String
+  recipient   Recipient          @relation(fields: [recipientId], references: [id])
+  status      WonderfulDayStatus @default(DRAFT)
+  title       String
+  description String?            @db.Text
+  targetDate  DateTime?
+  eventPlans  EventPlan[]
+  expenses    Expense[]
+  reports     ImpactReport[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  deletedAt   DateTime?
+
+  @@index([recipientId, status])
+  @@index([deletedAt])
+}
+
+model EventPlan {
+  id             String       @id @default(uuid())
+  wonderfulDayId String
+  wonderfulDay   WonderfulDay @relation(fields: [wonderfulDayId], references: [id])
+  title          String
+  details        String?      @db.Text
+  scheduledAt    DateTime?
+  vendors        Vendor[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  deletedAt      DateTime?
+
+  @@index([wonderfulDayId])
+}
+
+model Vendor {
+  id          String      @id @default(uuid())
+  eventPlanId String?
+  eventPlan   EventPlan?  @relation(fields: [eventPlanId], references: [id])
+  name        String
+  /// PII: vendor business contact email.
+  email       String?
+  phone       String?
+  notes       String?     @db.Text
+  expenses    Expense[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  deletedAt   DateTime?
+
+  @@index([eventPlanId])
+}
+
+model Expense {
+  id             String        @id @default(uuid())
+  wonderfulDayId String?
+  wonderfulDay   WonderfulDay? @relation(fields: [wonderfulDayId], references: [id])
+  vendorId       String?
+  vendor         Vendor?       @relation(fields: [vendorId], references: [id])
+  status         ExpenseStatus @default(PROJECTED)
+  description    String
+  amountCents    Int
+  currency       String        @default("USD")
+  incurredAt     DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  deletedAt      DateTime?
+
+  @@index([wonderfulDayId, status])
+  @@index([vendorId])
+}
+
+model Donor {
+  id             String          @id @default(uuid())
+  /// PII: donor display name when provided.
+  name           String?
+  /// PII: donor email when provided for receipts or thank-you drafts.
+  email          String?
+  walletAddress  String?
+  donations      Donation[]
+  communications Communication[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  deletedAt      DateTime?
+
+  @@unique([email])
+  @@unique([walletAddress])
+  @@index([deletedAt])
+}
+
+model Donation {
+  id                      String                 @id @default(uuid())
+  donorId                 String?
+  donor                   Donor?                 @relation(fields: [donorId], references: [id])
+  provider                DonationProvider
+  status                  DonationStatus         @default(PENDING)
+  amountCents             Int?
+  currency                String                 @default("USD")
+  amountCryptoWei         String?
+  chainId                 Int?
+  providerReference       String?
+  blockchainTransactionId String?                @unique
+  blockchainTransaction   BlockchainTransaction? @relation(fields: [blockchainTransactionId], references: [id])
+  createdAt               DateTime               @default(now())
+  updatedAt               DateTime               @updatedAt
+  deletedAt               DateTime?
+
+  @@index([provider, status])
+  @@index([chainId])
+  @@index([deletedAt])
+}
+
+model BlockchainTransaction {
+  id              String    @id @default(uuid())
+  transactionHash String
+  chainId         Int
+  blockNumber     Int?
+  fromAddress     String?
+  toAddress       String?
+  amountWei       String?
+  confirmedAt     DateTime?
+  donation        Donation?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([transactionHash, chainId])
+  @@index([chainId, blockNumber])
+}
+
+model Communication {
+  id          String              @id @default(uuid())
+  status      CommunicationStatus @default(DRAFT)
+  donorId     String?
+  donor       Donor?              @relation(fields: [donorId], references: [id])
+  recipientId String?
+  recipient   Recipient?          @relation(fields: [recipientId], references: [id])
+  subject     String
+  bodyDraft   String              @db.Text
+  bodyFinal   String?             @db.Text
+  approvedAt  DateTime?
+  sentAt      DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  deletedAt   DateTime?
+
+  @@index([status, createdAt])
+}
+
+model Grant {
+  id            String             @id @default(uuid())
+  status        GrantStatus         @default(IDENTIFIED)
+  title         String
+  funder        String?
+  url           String?
+  requirements  String?            @db.Text
+  deadline      DateTime?
+  applications  GrantApplication[]
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  deletedAt     DateTime?
+
+  @@index([status, deadline])
+}
+
+model GrantApplication {
+  id         String      @id @default(uuid())
+  grantId    String
+  grant      Grant       @relation(fields: [grantId], references: [id])
+  draft      String      @db.Text
+  status     GrantStatus @default(DRAFTING)
+  submittedAt DateTime?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  deletedAt  DateTime?
+
+  @@index([grantId, status])
+}
+
+model ImpactReport {
+  id             String             @id @default(uuid())
+  wonderfulDayId String?
+  wonderfulDay   WonderfulDay?      @relation(fields: [wonderfulDayId], references: [id])
+  status         ImpactReportStatus @default(DRAFT)
+  title          String
+  draft          String             @db.Text
+  approvedAt     DateTime?
+  publishedAt    DateTime?
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  deletedAt      DateTime?
+
+  @@index([status, createdAt])
+}
+
+model Document {
+  id          String             @id @default(uuid())
+  title       String
+  storageKey  String
+  mimeType    String
+  visibility  DocumentVisibility @default(INTERNAL)
+  checksum    String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  deletedAt   DateTime?
+
+  @@unique([storageKey])
+  @@index([visibility])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  actorId   String?
+  actor     User?    @relation(fields: [actorId], references: [id])
+  action    String
+  entity    String
+  entityId  String?
+  metadata  Json?
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([entity, entityId])
+}
