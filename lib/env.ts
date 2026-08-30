@@ -63,6 +63,10 @@ const publicEnvSchema = z.object({
     .max(100_000)
     .default(5_000),
   NEXT_PUBLIC_MAX_DONATION_ETH: z.coerce.number().positive().max(1_000).default(100),
+  NEXT_PUBLIC_TON_MANIFEST_URL: optionalUrl,
+  NEXT_PUBLIC_TON_RECIPIENT_ADDRESS: z.string().optional().or(z.literal('').transform(() => undefined)),
+  NEXT_PUBLIC_TON_NETWORK: z.enum(['mainnet', 'testnet']).default('testnet'),
+  NEXT_PUBLIC_TON_EXPLORER_URL: z.string().url().default('https://testnet.tonviewer.com'),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
