@@ -81,13 +81,25 @@ export default function TonDonationWidget() {
 
       const result = await tonConnectUI.sendTransaction(body);
       
-      // Attempt to extract boc (boc hash) if returned
+      const txHash = result.boc ? result.boc : undefined;
       setTransaction({ 
         status: 'confirmed', 
-        hash: result.boc ? result.boc : undefined 
+        hash: txHash 
       });
       setAmount('');
       setMessage('');
+
+      // Notify Telegram
+      fetch('/api/donations/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          network: 'TON',
+          amount: `${amount} TON`,
+          txHash: txHash || 'Unknown',
+          message: message.trim()
+        }),
+      }).catch(console.error);
     } catch (error: any) {
       setTransaction({
         status: 'failed',

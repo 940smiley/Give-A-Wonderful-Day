@@ -164,6 +164,19 @@ export default function DonationWidget() {
       }
 
       setTransaction({ status: 'confirmed', hash: tx.hash as string });
+      
+      // Notify Telegram
+      fetch('/api/donations/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          network: 'Ethereum',
+          amount: `${amount} ETH`,
+          txHash: tx.hash,
+          message: message.trim()
+        }),
+      }).catch(console.error);
+
       setAmount('');
       setMessage('');
       await Promise.all([loadContractBalance(), loadHistory()]);

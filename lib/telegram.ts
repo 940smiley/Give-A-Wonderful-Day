@@ -80,10 +80,13 @@ export async function sendTelegramBotNotification(
   botId: string,
   payload: { chat_id?: string; text: string; parse_mode?: string },
 ): Promise<{ success: boolean; message: string }> {
-  // Configured bot dispatcher simulation / webhook endpoint integration
-  if (process.env.TELEGRAM_BOT_TOKEN) {
+  // Construct dynamic env key based on botId, e.g. 'donor-hub' -> 'TELEGRAM_BOT_TOKEN_DONOR_HUB'
+  const envKey = `TELEGRAM_BOT_TOKEN_${botId.toUpperCase().replace(/-/g, '_')}`;
+  const token = process.env[envKey] || process.env.TELEGRAM_BOT_TOKEN;
+
+  if (token) {
     try {
-      const response = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(payload),

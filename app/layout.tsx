@@ -1,17 +1,25 @@
 import './globals.css';
-import type { ReactNode } from 'react';
-import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import Script from 'next/script';
+import TelegramMiniAppInit from './components/TelegramMiniAppInit';
 
-export const metadata: Metadata = {
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata = {
   title: 'Give-A-Wonderful-Day',
-  description:
-    'A production-ready nonprofit platform foundation for nominations, donations, transparency, and staff-reviewed automation.',
+  description: 'Funding and operational transparency platform.',
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <head>
+        <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
+      </head>
+      <body className={`${inter.className} min-h-screen bg-slate-50 text-slate-900`}>
+        <TelegramMiniAppInit />
+        {children}
+      </body>
     </html>
   );
 }
