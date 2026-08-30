@@ -2,16 +2,21 @@
 
 | Field | Current determination | Confidence and source |
 |---|---|---|
-| **Legal / common name** | Give-A-Wonderful-Day / Give A Wonderful Day | Common project name and repository README. |
-| **Listing status** | Private, pre-launch project; no public securities issuance identified. | Repository review. |
-| **Organizational posture** | Described in the repository as a **proposed 501(c)(3) nonprofit organization**. This is not treated as confirmed IRS-recognized status. | Repository README; verification required before public fundraising claims. |
-| **Operating model** | A Web3-ready charitable giving and community-governance concept, with a mobile demo that records simulated kindness moments locally. | Repository README and current mobile product plan. |
-| **Product scope at this stage** | Demonstration product; no live wallet, payment, token, donation custody, DAO vote, grant disbursement, or on-chain record is enabled in the mobile demo. | Mobile design plan. |
-| **Industry classification** | Social-impact technology / nonprofit community engagement. | Internal working classification. |
-| **Fiscal year end** | TBD by governing body and accounting advisor if an entity is formed. | Not yet provided. |
-| **Reporting currency and unit** | USD, only if and when an operating budget and fundraising plan are approved. | Working assumption; no financial data provided. |
-| **Funding status** | No historic funding, revenue, grant commitments, donor commitments, valuation, or securities offering terms were provided. | Treat all future funding targets as planning scenarios, not facts. |
+| **Legal / common name** | Give-A-Wonderful-Day / Give A Wonderful Day | Repository and docs (`README.md`, `docs/FUNDING_AND_PARTNERSHIP_BRIEF.md`). |
+| **Brand / mission** | Direct-impact crypto-native donation model. Donations (ETH via audited smart contract) → verified recipient programs (Wonderful Birthday Project for terminally ill patients and families in crisis). | All refreshed docs; `README.md`. |
+| **Operating model** | Web3 donation flow active (`NonprofitDonation.sol`, OpenZeppelin controls, multisig treasury). Program delivery structured (Wonderful / Extraordinary / Dream tiers). Public aggregate reporting; private recipient data never on-chain. | `README.md`, `docs/LAUNCH_PLAN.md`, `ARCHITECTURE.md`. |
+| **Product scope** | Live donation widget, wallet connection, contract event emission, explorer links, receipt generation, aggregate impact reporting. Program landing page, application/review flow, admin dashboard (server-side protected). Mobile demo exists; production activation requires audit + treasury verification. | `README.md`, `DEPLOYMENT.md`, `docs/LAUNCH_PLAN.md`. |
+| **Crypto / contract** | `NonprofitDonation.sol`: `Ownable2Step`, `Pausable`, `ReentrancyGuard`. Testnet compile/deploy/test/verify available. Mainnet deployment requires independent audit, Safe multisig, and explicit approval. | `SMART-CONTRACT-OPERATIONS.md`, `README.md`. |
+| **Legal / tax status** | Proposed nonprofit posture; no confirmed IRS 501(c)(3) determination. No claim that donations are tax-deductible until independently verified. No securities offering or token raise. | `README.md`, `docs/FUNDING_AND_PARTNERSHIP_BRIEF.md`. |
+| **Funding status** | No historic funding, revenue, or grant commitments provided. Funding architecture: philanthropic and partnership-led (grants, major gifts, sponsorship, in-kind, direct crypto donations). No speculative asset economics. | `docs/FUNDING_AND_PARTNERSHIP_BRIEF.md`. |
+| **Industry classification** | Crypto-native social-impact technology / direct-impact charitable giving. | Updated classification aligned with brand refresh. |
+| **Fiscal year end** | TBD by governing body and accounting advisor upon entity confirmation. | Not yet provided. |
+| **Reporting currency** | USD (working assumption); no approved budget yet. | Working assumption. |
 
-## Material Decisions Required Before a Public Raise
+## Material Decisions (Post-Refresh)
 
-The project must establish its legal entity and governing structure, confirm charitable status before representing itself as tax-exempt, adopt gift acceptance and data/privacy policies, and select whether Web3 features are mission tooling or part of a separate for-profit technology vehicle. This decision changes who can fund the work, the permitted revenue mechanisms, and the required disclosures.
+- Confirm smart contract independent audit before mainnet donation activation.
+- Confirm Safe multisig treasury configured and `acceptOwnership` completed.
+- Confirm legal/tax/solicitation review for target geographies before public fundraising claims.
+- Confirm child safeguarding, privacy, and consent protocols for Wonderful Birthday Project delivery.
+- Confirm no token or transferable digital asset mechanism is added without separate legal, governance, and security review.

@@ -1,4 +1,7 @@
 # Smart Contract Operations
+## Brand Posture
+
+Direct-impact contract: donations in, treasury withdrawals to verified recipient programs only. No token issuance, no investment framing, no speculative asset layer. Production requires independent audit, Safe multisig, and verified testnet rehearsal.
 
 ## Contract
 

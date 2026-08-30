@@ -1,4 +1,7 @@
 # Privacy and Data Handling
+## Brand Alignment — Direct Impact, Zero Exposure
+
+Recipient identity stays private. Funding flow stays public. No child name, medical detail, or family identity on public blockchain. Aggregate statistics only. Consent required for any published story or image.
 
 ## Data Minimization
 

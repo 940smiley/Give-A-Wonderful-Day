@@ -1,4 +1,7 @@
 # Contributing
+## Brand Posture
+
+Direct-impact contributions only. No speculative token features, no unverified investment framing, no recipient data exposure. Every PR should make the donation-to-recipient flow more transparent or safer.
 
 ## Development Standard
 

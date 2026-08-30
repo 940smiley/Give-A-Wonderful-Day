@@ -1,4 +1,7 @@
 # AI Automation Integration Plan
+## Brand Alignment — Direct Impact First
+
+AI automation serves the mission: faster recipient delivery, transparent impact reporting, and safer donor communication. No speculative token generation, no unverified content published without staff approval.
 
 ## Overview
 

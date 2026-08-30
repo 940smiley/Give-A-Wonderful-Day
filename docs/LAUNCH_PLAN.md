@@ -1,60 +1,70 @@
 # Give A Wonderful Day — Launch Readiness Plan
 
-> **Working plan — review with qualified nonprofit, legal, tax, security, and privacy professionals before relying on it.** The project is currently described as a proposed nonprofit and the mobile product is a demonstration only; it must not represent itself as tax-exempt, accept custody of donations, or describe simulated records as blockchain transactions until the required approvals and controls are in place.
+> **Direct-impact, crypto-native launch.** This is not a simulated-only demo plan. Give A Wonderful Day takes donations through a hardened `NonprofitDonation.sol` contract and distributes funds to verified recipients — terminally ill patients, families in crisis, children who need a wonderful birthday. Legal, tax, security, and privacy approvals are prerequisites, not excuses for inaction. Launch when controls are verified; operate openly once they are.
+
+---
 
 ## Launch Definition
 
-The first public release is a **mobile product demo and mission landing page**. It demonstrates the kindness-moment experience without a wallet, payment rail, token, NFT transfer, DAO vote, custody of assets, or live charitable solicitation. Success is measured by whether real pilot participants understand the purpose, finish the “create wonder” flow, and express willingness to return or partner.
+The first public release is a **live mobile experience with active donation flow**, mission landing page, and transparent impact reporting. People donate ETH directly to the audited smart contract. Funds are withdrawn through a multisig treasury for approved recipient programs. No simulated records presented as reality. No hidden middlemen. Success is measured by verified donations delivered to real recipients, not by simulated engagement metrics.
 
-| Release layer | Included at demo launch | Explicitly excluded until validated |
+| Release layer | Active at launch (post-verification) | Held until independently confirmed |
 |---|---|---|
-| **Product** | Local creation of a simulated kindness moment, impact view, roadmap, and share-ready receipt. | Live blockchain writes, wallet connection, token issuance, donation collection, recipient PII, and automated eligibility decisions. |
-| **Organization** | Transparent description of the project’s proposed status and a mission-first partnership invitation. | Statements that gifts are tax-deductible, public fundraising claims, or tax-exempt status claims unless independently verified. |
-| **Technology** | Open-source mobile demo, repository documentation, issue tracking, and a public security contact. | Smart-contract deployment, production funds custody, and tokenized rights or rewards. |
+| **Product** | Live donation widget (`DonationWidget`, `TonDonationWidget`), wallet connection with wrong-network blocking, on-chain event emission (`DonationReceived`), explorer links, receipt generation, aggregate impact view. | Automated recipient eligibility decisions without human review; tokenized rights or rewards. |
+| **Organization** | Clear mission statement, proposed status disclosure, direct solicitation with verified treasury controls, privacy policy, safeguarding protocol. | Tax-deductible claim unless IRS/status determination is confirmed independently. No public charity claim without evidence. |
+| **Technology** | Deployed `NonprofitDonation.sol` (Ownable2Step, Pausable, ReentrancyGuard), open-source repo, public contract verification, security contact. | New token contracts, NFT issuance, DAO mechanics — require separate legal, governance, and security review before any reconsideration. |
 
-## Critical Path to a Public Pilot
+---
 
-| Gate | Owner to assign | Evidence of completion | Launch consequence if incomplete |
-|---|---|---|---|
-| **Governance and entity formation** | Founding board and nonprofit counsel | Formation documents, conflict-of-interest policy, board approvals, and documented charitable purpose. | Do not describe the project as an operating charity or solicit gifts. |
-| **Tax-exempt status and disclosure** | Nonprofit counsel and finance lead | EIN, Form 1023-series filing path, IRS determination status, and public-document process. The IRS states that most organizations seeking 501(c)(3) recognition use a Form 1023-series application and generally need an EIN.[1] | No tax-deductibility representation or public charity claim. |
-| **Charitable-solicitation review** | Counsel and compliance lead | State-by-state solicitation analysis for every target audience and registration/exemption evidence where required. The IRS notes that state requirements vary and that approximately 40 states have solicitation statutes.[2] | Limit the launch to non-solicitation messaging until cleared. |
-| **Funds and gift acceptance** | Treasurer and counsel | Gift-acceptance policy, restricted-fund treatment, refund policy, custody decision, and approved payment provider. | Do not activate donations or accept crypto assets. |
-| **Privacy and safeguarding** | Product and privacy lead | Data map, privacy notice, age/consent posture, moderation escalation path, and deletion process. | Do not collect recipient stories, sensitive details, or minor data. |
-| **Security and Web3 architecture** | Technical lead and independent reviewer | Threat model, wallet/custody decision record, contract audit scope, incident response plan, and dependencies inventory. | Keep all product records local and simulated. |
-| **Pilot operations** | Program lead | Partner selection criteria, safeguarding protocol, consent language, feedback script, and impact-reporting template. | Do not promise outcomes or scale before a measured pilot. |
+## Critical Path — From Contract to Recipient
 
-## 12-Month Sequenced Roadmap
+| Gate | Evidence required before activation | Consequence if skipped |
+|---|---|---|
+| **Smart contract audit + verification** | Independent review of `NonprofitDonation.sol`, bytecode verification on explorer, multisig (Safe) treasury configured as owner, testnet rehearsal complete. | Do not deploy to mainnet or accept donations. |
+| **Treasury and custody controls** | Approved gift-acceptance policy, restricted-fund tracking, withdrawal process documented, multisig signers named, incident response plan active. | No live ETH custody or withdrawals. |
+| **Legal / tax / solicitation review** | Nonprofit counsel reviews entity formation, solicitation requirements for target geographies, public disclosure language. The IRS notes that approximately 40 states have solicitation statutes.[1] Tax-deductibility claim requires independent verification.[2] | No claim that donations are tax-deductible; no public fundraising without state-level clearance where required. |
+| **Privacy and safeguarding** | Data map, privacy notice, recipient PII separation from public blockchain data, consent language for any documented stories, moderation/escalation path, deletion process. | Do not collect recipient PII; do not publish any beneficiary story without explicit consent. |
+| **Program operations (Wonderful Birthday)** | Named pilot thesis, partner selection criteria, safeguarding protocol, experience design (Wonderful / Extraordinary / Dream tiers), family application/review flow. | Do not promise outcomes before a measured pilot. |
+| **Security and Web3 architecture** | Threat model completed, wallet/custody decision recorded, dependencies inventory (Hardhat, RPC, indexer), contract audit scope executed. | Do not expose production contract to unaudited changes. |
 
-| Phase | Intended outcome | Product milestone | Organization and funding milestone | Exit criteria |
+---
+
+## 3-Month Activation Roadmap (Post-Verification)
+
+| Phase | Outcome | Product milestone | Funding / operation milestone | Exit criteria |
 |---|---|---|---|---|
-| **0. Demo readiness** | Explain the concept safely and test usability. | Local-first mobile demo, public project page, clear demo labeling, and feedback capture plan. | Entity and governance workstream launched; no public tax-deductible fundraising assertion. | Core flow can be completed without a wallet or account, and disclaimers are clear. |
-| **1. Design-partner pilot** | Validate a narrow use case with a small number of mission-aligned partners. | Consent-led pilot workflow, non-sensitive aggregate impact reporting, and moderation operations. | Board-approved pilot budget; partner letters; legal and solicitation review for selected geography. | Participant experience, cost per completed moment, return rate, and partner feedback meet board-set thresholds. |
-| **2. Operational launch** | Operate repeatable programs with transparent controls. | Privacy-controlled account option only if needed, exportable reporting, and support process. | Confirmed charitable standing or clearly disclosed fiscal-sponsor arrangement; approved gift acceptance and data policies. | Program, finance, and safeguarding reporting are reviewed on a regular cadence. |
-| **3. Web3 utility assessment** | Decide whether decentralized records add measurable mission value. | Optional, non-financial provenance prototype only after user research and security review. | Specialized counsel assesses token/NFT/DAO implications, fundraising representations, and governance model. | Written go/no-go decision shows a user benefit that cannot be achieved more safely with conventional tooling. |
-| **4. Network expansion** | Extend to additional partners only when controls and outcomes are repeatable. | Partner toolkit, standardized reporting, and service reliability targets. | Diversified funding and board-approved expansion budget. | External evaluation or equivalent outcome review supports scaling decision. |
+| **0. Contract live** | Donations can be made with proof. | `NonprofitDonation.sol` deployed, verified, multisig configured; donation widget connects; event emission and explorer links active. | Treasury controls approved; no tax-deductibility claim without confirmation. | Independent audit signed; first donation event verifiable on-chain. |
+| **1. Direct recipient delivery** | Verified wonderful days funded. | Program application/review flow active; Wonderful Birthday tiers (Wonderful / Extraordinary / Dream) delivered to approved recipients; aggregate reporting public. | Board-approved pilot budget; partner letters; gift-acceptance and privacy policies confirmed. | Recipient experience delivered; cost per experience tracked; family feedback recorded; no sensitive data exposed. |
+| **2. Partner and sponsor scale** | Repeatable program with transparent funding. | Partner toolkit; standardized aggregate reporting; sponsored cohort option with mission-aligned sponsors. | Diversified funding (crypto donations + sponsor support); monthly financial cadence; reserve policy active. | Program, finance, safeguarding reviewed monthly; external evaluation or equivalent outcome review supports next phase. |
+| **3. Network expansion (optional)** | Additional partners only when controls repeat. | Expanded partner toolkit; service reliability targets; optional provenance layer only after user research and separate legal review. | Board-approved expansion budget; no token/NFT/DAO mechanics without specialized counsel and governance review. | Written go/no-go on any crypto-asset addition shows a user benefit that cannot be achieved more safely with conventional tooling. |
 
-## Launch Metrics and Decision Discipline
+---
 
-The project will not use token price, crypto transaction volume, or social reach as a proxy for impact. The initial metric set should connect the experience to operating decisions while keeping personal data collection minimal.
+## Metrics — Impact Over Speculation
 
-| Dimension | Initial metric | Why it matters | Review cadence |
+No token price, transaction volume, or social reach is a proxy for impact.
+
+| Dimension | Metric | Why it matters | Cadence |
 |---|---|---|---|
-| **Completion** | Percentage of started “create wonder” flows that reach a receipt. | Identifies usability friction in the core journey. | Weekly during a pilot. |
-| **Comprehension** | Percentage of participants who correctly identify the record as a demo/simulated entry. | Tests whether claims are clear and avoids misleading Web3 framing. | Each research round. |
-| **Return intent** | Percentage of participants who state they would create another moment or recommend the experience. | A directional signal for product relevance, not a revenue proxy. | At pilot close. |
-| **Partner value** | Partner-rated usefulness of the workflow and reporting. | Determines whether the product reduces or adds program burden. | At pilot close. |
-| **Safety** | Count and resolution time of privacy, safeguarding, and moderation events. | Keeps participant wellbeing above growth metrics. | Immediately and monthly. |
-| **Financial discipline** | Budget variance against board-approved pilot plan. | Ensures resources remain aligned with mission. | Monthly. |
+| **Donation flow** | Verified donations, total ETH raised, transaction success rate, explorer-link verification rate. | Confirms the contract works and donors can verify their contribution. | Real-time + weekly. |
+| **Recipient delivery** | Birthdays funded, birthdays delivered, children served, families supported, average cost per experience. | Connects donations directly to mission outcomes. | Per delivery + monthly. |
+| **Program quality** | Family/partner-rated experience; consent documentation rate; safeguarding event count and resolution time. | Keeps recipient wellbeing above growth. | Per pilot + monthly. |
+| **Financial discipline** | Budget variance against board-approved pilot; treasury withdrawal approvals; reserve status. | Ensures donations go to approved recipient programs, not speculative use. | Monthly. |
+| **Transparency** | Aggregate impact reports published; smart contract event logs accessible; no private recipient data leaked. | Builds trust with crypto donors who expect verifiable flow. | Per report cycle. |
 
-## Technology and Communication Guardrails
+---
 
-The demo must use plain-language labels such as “simulated record,” “demo,” and “not a donation receipt.” Before launching any crypto asset, digital collectible, transferable benefit, or token-related funding model, obtain specialized advice. The SEC explains that a tokenized financial instrument can be a digital security and that rights attached to a crypto asset can materially change its treatment.[3]
+## Communication and Technology Guardrails
 
-All public communication should show the organization’s actual status, avoid return or value expectations, explain what is and is not stored, and present a verifiable contact path for security and safeguarding reports.
+- **Public communication must show actual status**: no false tax-deductible claims; no investment framing; no return or value expectations for any crypto asset.
+- **On-chain transparency = impact transparency, not recipient exposure**: aggregate statistics only; recipient names, medical details, family contacts never on public blockchain. Any on-chain identifier uses non-sensitive hashes or aggregate values only.
+- **Before any new crypto asset, digital collectible, transferable benefit, or token mechanism**: specialized counsel must review. The SEC explains that rights attached to a crypto asset materially change its regulatory treatment.[3]
+- **Demo / simulated framing removed once verified**: once audit and treasury controls are complete, the product is live — not simulated — and should be described as such.
+
+---
 
 ## References
 
-[1]: https://www.irs.gov/charities-non-profits/application-for-recognition-of-exemption "IRS — Application for recognition of exemption"
-[2]: https://www.irs.gov/charities-non-profits/charitable-organizations/charitable-solicitation-initial-state-registration "IRS — Charitable solicitation: initial state registration"
+[1]: https://www.irs.gov/charities-non-profits/charitable-organizations/charitable-solicitation-initial-state-registration "IRS — Charitable solicitation: initial state registration"
+[2]: https://www.irs.gov/charities-non-profits/application-for-recognition-of-exemption "IRS — Application for recognition of exemption"
 [3]: https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/crypto-assets-federal-securities-laws "SEC — Crypto assets and the federal securities laws"

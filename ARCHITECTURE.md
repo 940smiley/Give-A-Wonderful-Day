@@ -1,5 +1,9 @@
 # Architecture
 
+## Brand and Mission Alignment
+
+Direct-impact, crypto-native. Donations through `NonprofitDonation.sol` fund verified recipient programs. No speculative layer between donor and recipient. Aggregate impact is public; recipient identity stays private.
+
 ## Application
 
 - Framework: Next.js App Router.
@@ -26,7 +30,7 @@ Program (WONDERFUL_BIRTHDAY)
 → Eligibility/Review
 → Selection (Priority Emergency or Periodic)
 → Experience Planning (tier assignment)
-→ Funding
+→ Funding (via NonprofitDonation.sol or treasury)
 → WonderfulDay (execution)
 → Impact Report
 ```
@@ -92,7 +96,7 @@ lib/programs/wonderful-birthday/
 app/programs/wonderful-birthday/
 ├── page.tsx              # Program landing page
 └── apply/
-    ├── page.tsx           # Application form page
+    ├── page.tsx           # Application form page wrapper
     └── BirthdayApplicationForm.tsx # Client-side form component
 
 app/admin/birthday-applications/

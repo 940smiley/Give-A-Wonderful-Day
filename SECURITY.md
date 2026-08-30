@@ -1,4 +1,7 @@
 # Security
+## Brand Alignment
+
+Direct-impact security: no recipient PII on public blockchain, donation events only, multisig treasury controls, and private vulnerability reporting. No speculative token mechanisms without separate security review.
 
 ## Reporting
 

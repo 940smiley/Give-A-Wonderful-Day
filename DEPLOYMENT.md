@@ -1,4 +1,7 @@
 # Deployment
+## Brand and Launch Posture
+
+Direct-impact, crypto-native. Live donation flow (`NonprofitDonation.sol`) activates only after audit, multisig confirmation, and independent review. No simulated-only framing in production. Aggregate impact public; recipient identity private.
 
 ## Recommended Production Architecture
 
