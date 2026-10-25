@@ -44,7 +44,7 @@
     "next-auth": "4.24.15",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "zod": "4.4.3"
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "6.1.2",
